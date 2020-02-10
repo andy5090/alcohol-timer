@@ -1,6 +1,6 @@
 const initialState = {
   drinkCount: 0,
-  drinkType: "Beer"
+  drinkId: null
 };
 
 function increaseCount(state) {
@@ -18,7 +18,7 @@ function resetCount(state) {
 function changeDrink(state, action) {
   return {
     ...state,
-    drinkType: action.drinkType
+    drinkId: action.drinkId
   };
 }
 

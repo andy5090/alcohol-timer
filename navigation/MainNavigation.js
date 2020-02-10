@@ -7,6 +7,7 @@ import AlarmScreen from "../screens/Alarm";
 import AlarmMsgsScreen from "../screens/AlarmMsgs";
 import DrinksScreen from "../screens/Drinks";
 import InfoScreen from "../screens/Info";
+import UserScreen from "../screens/User";
 import { headerStyles } from "./config";
 
 const MainNavigation = createStackNavigator(
@@ -18,7 +19,8 @@ const MainNavigation = createStackNavigator(
     Alarm: {
       screen: AlarmScreen,
       navigationOptions: () => ({
-        ...headerStyles
+        ...headerStyles,
+        headerShown: false
       })
     },
     AlarmMsgs: {
@@ -29,6 +31,12 @@ const MainNavigation = createStackNavigator(
     },
     Drinks: {
       screen: DrinksScreen,
+      navigationOptions: () => ({
+        ...headerStyles
+      })
+    },
+    User: {
+      screen: UserScreen,
       navigationOptions: () => ({
         ...headerStyles
       })

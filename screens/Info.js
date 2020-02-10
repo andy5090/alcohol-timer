@@ -12,7 +12,7 @@ const Container = styled.View`
 
 const Info = ({}) => (
   <Container>
-    <Text>Info</Text>
+    <Text>Developed by Andy Lee</Text>
   </Container>
 );
 

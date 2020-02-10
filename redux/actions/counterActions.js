@@ -6,9 +6,9 @@ const resetCount = () => ({
   type: "RESET_COUNT"
 });
 
-const changeDrink = drinkType => ({
+const changeDrink = drinkId => ({
   type: "CHANGE_DRINK",
-  drinkType
+  drinkId
 });
 
 export const counterActionCreator = {

@@ -15,7 +15,7 @@ const editMessage = (state, action) => {
 };
 
 const removeMessage = (state, action) => {
-  return state.filter((message, index) => index !== action.id);
+  return state.filter(message => message.id !== action.id);
 };
 
 const removeAllMessages = state => {

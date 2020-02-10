@@ -17,7 +17,7 @@ const SettingPresenter = ({ loaded, navigation }) =>
   ) : (
     <Container>
       <TextButton
-        name="Alarm Messages"
+        name="알람 메세지 설정"
         onPress={() =>
           navigation.navigate({
             routeName: "AlarmMsgs"
@@ -25,7 +25,7 @@ const SettingPresenter = ({ loaded, navigation }) =>
         }
       />
       <TextButton
-        name="Drinks"
+        name="술 종류 설정"
         onPress={() =>
           navigation.navigate({
             routeName: "Drinks"
@@ -33,7 +33,7 @@ const SettingPresenter = ({ loaded, navigation }) =>
         }
       />
       <TextButton
-        name="User Setting"
+        name="신체 정보 설정"
         onPress={() =>
           navigation.navigate({
             routeName: "User"
@@ -41,7 +41,7 @@ const SettingPresenter = ({ loaded, navigation }) =>
         }
       />
       <TextButton
-        name="Info"
+        name="앱 정보"
         onPress={() =>
           navigation.navigate({
             routeName: "Info"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar, Modal, View } from "react-native";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
@@ -7,6 +7,7 @@ import ImageButton from "../../components/ImageButton";
 import TextButton from "../../components/TextButton";
 import { TINT_COLOR, BG_COLOR } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { withNavigation } from "react-navigation";
 
 const formatTime = time => {
   let hours = 0;
@@ -78,26 +79,36 @@ const TimerPresenter = ({
   restartTimer,
   plusHour,
   plusHalfHour,
-  turnOffAlarm
+  turnOffAlarm,
+  navigation
 }) => {
+  useEffect(() => {
+    if (alarmOn) {
+      navigation.navigate({ routeName: "Alarm" });
+    }
+  }, [alarmOn]);
+
   return loading ? (
     <Loader />
   ) : (
     <Container>
-      <StatusBar barStyle={"light-content"} />
       <Upper>
-        <TextButton name="+30min" onPress={plusHalfHour} />
-        <TextButton name="+1hour" onPress={plusHour} />
+        <TextButton name="+30분" onPress={plusHalfHour} />
+        <TextButton name="+1시간" onPress={plusHour} />
       </Upper>
       <Middle>
         <Timer> {formatTime(timerDuration - elapsedTime)}</Timer>
       </Middle>
       <Lower>
         {!isPlaying && (
-          <ImageButton iconName="play-circle" onPress={startTimer} />
+          <ImageButton size={120} iconName="play-circle" onPress={startTimer} />
         )}
         {isPlaying && (
-          <ImageButton iconName="stop-circle" onPress={restartTimer} />
+          <ImageButton
+            size={120}
+            iconName="stop-circle"
+            onPress={restartTimer}
+          />
         )}
       </Lower>
     </Container>
@@ -108,4 +119,4 @@ TimerPresenter.propTypes = {
   loading: PropTypes.bool.isRequired
 };
 
-export default TimerPresenter;
+export default withNavigation(TimerPresenter);

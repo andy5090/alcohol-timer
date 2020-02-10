@@ -12,7 +12,7 @@ const logger = createLogger({
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["messageReducer"],
+  whitelist: ["messageReducer", "drinkReducer", "userReducer"],
   blacklist: ["timerReducer", "counterReducer"]
 };
 

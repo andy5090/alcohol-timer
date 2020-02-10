@@ -12,16 +12,24 @@ const ButtonContainer = styled.View`
 const ButtonText = styled.Text`
   padding: 20px;
   align-self: center;
-  color: ${BG_COLOR};
+  color: ${props => props.fontColor};
   font-size: ${props => props.fontSize};
   font-weight: 200;
 `;
 
-function TextButton({ name, onPress, fontSize = 20, color = "white" }) {
+function TextButton({
+  name,
+  onPress,
+  fontSize = 20,
+  color = "white",
+  fontColor = BG_COLOR
+}) {
   return (
     <TouchableOpacity onPressOut={onPress}>
       <ButtonContainer color={color}>
-        <ButtonText fontSize={fontSize}>{name}</ButtonText>
+        <ButtonText fontSize={fontSize} fontColor={fontColor}>
+          {name}
+        </ButtonText>
       </ButtonContainer>
     </TouchableOpacity>
   );

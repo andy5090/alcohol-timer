@@ -8,18 +8,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    addMessage: bindActionCreators(messageActionCreator.addMessage, dispatch),
-    editMessage: bindActionCreators(messageActionCreator.editMessage, dispatch),
-    removeMessage: bindActionCreators(
-      messageActionCreator.removeMessage,
-      dispatch
-    ),
-    removeAllMessages: bindActionCreators(
-      messageActionCreator.removeAllMessages,
-      dispatch
-    )
-  };
+  return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlarmMsgsContainer);

@@ -5,8 +5,11 @@ export default CounterContainer = ({
   increaseCount,
   resetCount,
   drinkCount,
-  drinkType,
-  changeDrink
+  changeDrink,
+  drinks,
+  drinkId,
+  sex,
+  weight
 }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, getError] = useState(null);
@@ -17,8 +20,11 @@ export default CounterContainer = ({
       increaseCount={increaseCount}
       resetCount={resetCount}
       drinkCount={drinkCount}
-      drinkType={drinkType}
       changeDrink={changeDrink}
+      drinks={drinks}
+      drinkId={drinkId}
+      sex={sex}
+      weight={weight}
     />
   );
 };

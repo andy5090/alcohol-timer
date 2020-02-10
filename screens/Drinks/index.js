@@ -1,16 +1,22 @@
 import DrinksContainer from "./DrinksContainer";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { counterActionCreator as drinksActions } from "../../redux/actions/counterActions";
+import { drinkActionCreator } from "../../redux/actions/drinkActions";
 
 const mapStateToProps = state => {
-  const { drinkType } = state.counterReducer;
-  return { drinkType };
+  const drinks = state.drinkReducer;
+  return { drinks };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeDrink: bindActionCreators(drinksActions.changeDrink, dispatch)
+    addDrink: bindActionCreators(drinkActionCreator.addDrink, dispatch),
+    editDrink: bindActionCreators(drinkActionCreator.editDrink, dispatch),
+    removeDrink: bindActionCreators(drinkActionCreator.removeDrink, dispatch),
+    removeAllDrinks: bindActionCreators(
+      drinkActionCreator.removeAllDrinks,
+      dispatch
+    )
   };
 };
 

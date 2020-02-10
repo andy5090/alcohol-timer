@@ -1,6 +1,6 @@
 import React from "react";
-import { Text } from "react-native";
 import PropTypes from "prop-types";
+import { Picker } from "react-native";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import TextButton from "../../components/TextButton";
@@ -31,10 +31,24 @@ const Lower = styled.View`
   align-items: center;
 `;
 
+const AlcoholRate = styled.Text`
+  color: ${TINT_COLOR};
+  font-size: 40;
+  font-weight: 200;
+`;
+
 const Counter = styled.Text`
   color: ${TINT_COLOR};
-  font-size: 120;
+  font-size: 100;
   font-weight: 200;
+`;
+
+const DrinkPicker = styled.Picker`
+  background-color: white;
+  border-radius: 10px;
+  justify-content: center;
+  width: 80;
+  height: 50;
 `;
 
 const CounterPresenter = ({
@@ -42,43 +56,52 @@ const CounterPresenter = ({
   increaseCount,
   resetCount,
   drinkCount,
-  drinkType,
-  changeDrink
-}) =>
-  loaded ? (
+  drinkId,
+  changeDrink,
+  drinks,
+  sex,
+  weight
+}) => {
+  let chosenDrink, amount, degree;
+
+  if (drinkId === null) {
+    changeDrink(drinks[0].id);
+    chosenDrink = drinks[0];
+    amount = parseInt(chosenDrink.amount);
+    degree = parseInt(chosenDrink.degree);
+  } else {
+    chosenDrink = drinks.filter(drink => drink.id === drinkId).pop();
+    amount = parseInt(chosenDrink.amount);
+    degree = parseInt(chosenDrink.degree);
+  }
+
+  const weightP = parseInt(weight);
+  const sexR = sex === "male" ? 0.86 : 0.64;
+  const bac =
+    Math.round(
+      ((amount * drinkCount * (degree / 100) * 0.7894 * 0.7) /
+        (weightP * sexR * 10)) *
+        1000
+    ) / 1000;
+  return loaded ? (
     <Loader />
   ) : (
     <Container>
       <Upper>
-        <TextButton name="Reset" onPress={resetCount} />
-        {drinkType === "Beer" ? (
-          <TextButton
-            name="Beer"
-            onPress={() => changeDrink("Beer")}
-            color="red"
-          />
-        ) : (
-          <TextButton
-            name="Beer"
-            onPress={() => changeDrink("Beer")}
-            color="white"
-          />
-        )}
-        {drinkType === "Soju" ? (
-          <TextButton
-            name="Soju"
-            onPress={() => changeDrink("Soju")}
-            color="red"
-          />
-        ) : (
-          <TextButton
-            name="Soju"
-            onPress={() => changeDrink("Soju")}
-            color="white"
-          />
-        )}
+        <TextButton name="다마심" onPress={resetCount} />
+        <DrinkPicker
+          selectedValue={drinkId}
+          onValueChange={itemValue => changeDrink(itemValue)}
+          mode="dropdown"
+          itemStyle={{ color: BG_COLOR }}
+        >
+          {drinks.map(drink => (
+            <Picker.Item key={drink.id} label={drink.name} value={drink.id} />
+          ))}
+        </DrinkPicker>
       </Upper>
       <Middle>
+        <AlcoholRate>{`${bac}%`}</AlcoholRate>
         <Counter>{drinkCount}</Counter>
       </Middle>
       <Lower>
@@ -90,6 +113,7 @@ const CounterPresenter = ({
       </Lower>
     </Container>
   );
+};
 
 CounterPresenter.propTypes = {
   loaded: PropTypes.bool.isRequired

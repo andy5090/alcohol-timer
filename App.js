@@ -5,9 +5,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store/store";
-import MsgLoading from "./MsgLoading";
+import Launching from "./Launching";
 import { AsyncStorage } from "react-native";
-import { purgeStoredState } from "redux-persist";
+import Loader from "./components/Loader";
 
 export default class App extends React.Component {
   state = {
@@ -20,8 +20,6 @@ export default class App extends React.Component {
 
   loadAssets = async () => {
     await Font.loadAsync({ ...Ionicons.font });
-    // AsyncStorage.removeItem("alreadyLaunched");
-    //await AsyncStorage.clear();
   };
 
   render() {
@@ -29,8 +27,8 @@ export default class App extends React.Component {
     if (loaded) {
       return (
         <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <MsgLoading />
+          <PersistGate loading={<Loader />} persistor={persistor}>
+            <Launching />
           </PersistGate>
         </Provider>
       );

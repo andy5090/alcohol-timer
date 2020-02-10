@@ -4,8 +4,10 @@ import { bindActionCreators } from "redux";
 import { counterActionCreator } from "../../redux/actions/counterActions";
 
 const mapStateToProps = state => {
-  const { drinkCount, drinkType } = state.counterReducer;
-  return { drinkCount, drinkType };
+  const { drinkCount, drinkId } = state.counterReducer;
+  const { sex, weight } = state.userReducer;
+  const drinks = state.drinkReducer;
+  return { drinkCount, drinkId, drinks, sex, weight };
 };
 
 const mapDispatchToProps = dispatch => {

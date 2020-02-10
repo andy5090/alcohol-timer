@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import UserPresenter from "./UserPresenter";
 
-export default class UserContainer extends React.Component {
-  state = {
-    loading: true,
-    error: null
-  };
-
-  render() {
-    const { loading } = this.state;
-    return <UserPresenter loading={loading} />;
-  }
-}
+export default UserContainer = ({ changeSex, editWeight, sex, weight }) => {
+  const [loading, setLoading] = useState(false);
+  console.log(weight);
+  return (
+    <UserPresenter
+      loading={loading}
+      changeSex={changeSex}
+      editWeight={editWeight}
+      sex={sex}
+      weight={weight}
+    />
+  );
+};

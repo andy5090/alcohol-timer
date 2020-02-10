@@ -5,10 +5,12 @@ import { timerActionCreator } from "../../redux/actions/timerActions";
 
 const mapStateToProps = state => {
   const { elapsedTime, timerDuration, alarmOn } = state.timerReducer;
+  const messages = state.messageReducer;
   return {
     elapsedTime,
     timerDuration,
-    alarmOn
+    alarmOn,
+    messages
   };
 };
 
