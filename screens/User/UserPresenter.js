@@ -26,10 +26,14 @@ const Middle = styled.View`
   justify-content: center;
 `;
 
+const WeightContatiner = styled.View`
+  flex-direction: row;
+  justify-content: center;
+`;
+
 const UserText = styled.Text`
   padding-top: 30px;
   padding-bottom: 30px;
-  padding-left: 40;
   color: ${TINT_COLOR};
   font-size: 40;
   font-weight: 200;
@@ -38,7 +42,6 @@ const UserText = styled.Text`
 const UserTextInput = styled.TextInput`
   padding-top: 30px;
   padding-bottom: 30px;
-  padding-left: 40;
   color: ${TINT_COLOR};
   font-size: 40;
   font-weight: 200;
@@ -93,8 +96,8 @@ const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
       </Upper>
       <Middle>
         <TouchableWithoutFeedback onPressOut={_onInput}>
-          <UserText>
-            체중 :{" "}
+          <WeightContatiner>
+            <UserText>체중 : </UserText>
             {editMode ? (
               <UserTextInput
                 placeholder={weight}
@@ -104,10 +107,10 @@ const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
                 onChangeText={changedText => _onUpdate(changedText)}
               />
             ) : (
-              weight
+              <UserText>{weight}</UserText>
             )}
-            kg
-          </UserText>
+            <UserText>kg</UserText>
+          </WeightContatiner>
         </TouchableWithoutFeedback>
         <InfoText>해당 정보는 수집되지 않습니다</InfoText>
         <InfoText>위드마크 혈중알콜농도 계산 공식에 사용됩니다</InfoText>
