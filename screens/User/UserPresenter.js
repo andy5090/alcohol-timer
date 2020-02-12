@@ -4,11 +4,14 @@ import { Text } from "react-native";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import TextButton from "../../components/TextButton";
-import { BG_COLOR, TINT_COLOR } from "../../constants/Colors";
+import { BG_COLOR, TINT_COLOR, SELECTED_COLOR } from "../../constants/Colors";
 import {
   TouchableWithoutFeedback,
   TextInput
 } from "react-native-gesture-handler";
+import Layout from "../../constants/Layout";
+
+const textSize = Layout.defaultFontSize;
 
 const Container = styled.View`
   background-color: ${BG_COLOR};
@@ -35,7 +38,7 @@ const UserText = styled.Text`
   padding-top: 30px;
   padding-bottom: 30px;
   color: ${TINT_COLOR};
-  font-size: 40;
+  font-size: ${textSize * 2};
   font-weight: 200;
 `;
 
@@ -43,7 +46,7 @@ const UserTextInput = styled.TextInput`
   padding-top: 30px;
   padding-bottom: 30px;
   color: ${TINT_COLOR};
-  font-size: 40;
+  font-size: ${textSize * 2};
   font-weight: 200;
 `;
 
@@ -52,7 +55,7 @@ const InfoText = styled.Text`
   padding-left: 40;
   padding-right: 40;
   color: ${TINT_COLOR};
-  font-size: 20;
+  font-size: ${textSize};
   font-weight: 200;
 `;
 
@@ -83,13 +86,13 @@ const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
       <Upper>
         <TextButton
           name="남성"
-          color={sex === "male" ? "red" : "white"}
+          color={sex === "male" ? SELECTED_COLOR : "white"}
           fontColor={sex === "male" ? "white" : BG_COLOR}
           onPress={() => changeSex("male")}
         />
         <TextButton
           name="여성"
-          color={sex === "female" ? "red" : "white"}
+          color={sex === "female" ? SELECTED_COLOR : "white"}
           fontColor={sex === "female" ? "white" : BG_COLOR}
           onPress={() => changeSex("female")}
         />

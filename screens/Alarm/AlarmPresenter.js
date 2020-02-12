@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { Vibration } from "react-native";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
@@ -44,6 +44,8 @@ const Container = styled.View`
   flex: 1;
 `;
 
+const PATTERN = [1000, 2000, 3000];
+
 const AlarmPresenter = ({
   loaded,
   elapsedTime,
@@ -53,6 +55,12 @@ const AlarmPresenter = ({
   turnOffAlarm,
   navigation
 }) => {
+  if (alarmOn) {
+    Vibration.vibrate(PATTERN);
+  } else {
+    Vibration.cancel();
+  }
+
   const randMsgIndex = Math.floor(Math.random() * messages.length);
   return loaded ? (
     <Loader />

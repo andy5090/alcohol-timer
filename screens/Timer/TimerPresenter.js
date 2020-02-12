@@ -8,6 +8,9 @@ import TextButton from "../../components/TextButton";
 import { TINT_COLOR, BG_COLOR } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { withNavigation } from "react-navigation";
+import Layout from "../../constants/Layout";
+
+const bigTextSize = Layout.defaultFontSize * 3;
 
 const formatTime = time => {
   let hours = 0;
@@ -59,7 +62,7 @@ const Middle = styled.View`
 
 const Timer = styled.Text`
   color: ${TINT_COLOR};
-  font-size: 70;
+  font-size: ${bigTextSize};
   font-weight: 200;
 `;
 

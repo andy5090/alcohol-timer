@@ -10,6 +10,9 @@ import { bindActionCreators } from "redux";
 import { messageActionCreator } from "../redux/actions/messageActions";
 import uuidv1 from "uuid/v1";
 import { FontAwesome } from "@expo/vector-icons";
+import Layout from "../constants/Layout";
+
+const textSize = Layout.defaultFontSize;
 
 const ButtonContainer = styled.View`
   flex-direction: row;
@@ -35,14 +38,14 @@ const ButtonText = styled.Text`
   padding: 20px;
   align-self: center;
   color: ${BG_COLOR};
-  font-size: 20;
+  font-size: ${textSize};
   font-weight: 200;
 `;
 
 const EditText = styled.TextInput`
   padding: 20px;
   color: ${BG_COLOR};
-  font-size: 20;
+  font-size: ${textSize};
   font-weight: 200;
 `;
 

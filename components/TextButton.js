@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { TouchableOpacity } from "react-native";
 import { BG_COLOR } from "../constants/Colors";
+import Layout from "../constants/Layout";
 
 const ButtonContainer = styled.View`
   background-color: ${props => props.color};
-  border-radius: 100px;
+  border-radius: 20px;
+  margin: 1px;
 `;
 
 const ButtonText = styled.Text`
@@ -20,7 +22,7 @@ const ButtonText = styled.Text`
 function TextButton({
   name,
   onPress,
-  fontSize = 20,
+  fontSize = Layout.defaultFontSize,
   color = "white",
   fontColor = BG_COLOR
 }) {

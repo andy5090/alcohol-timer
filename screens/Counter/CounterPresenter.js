@@ -1,11 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Picker } from "react-native";
+import { Picker, Platform } from "react-native";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import TextButton from "../../components/TextButton";
 import ImageButton from "../../components/ImageButton";
 import { BG_COLOR, TINT_COLOR } from "../../constants/Colors";
+import Layout from "../../constants/Layout";
+
+const midTextSize = Layout.defaultFontSize * 2;
+const bigTextSize = Layout.defaultFontSize * 5;
 
 const Container = styled.View`
   background-color: ${BG_COLOR};
@@ -33,22 +37,27 @@ const Lower = styled.View`
 
 const AlcoholRate = styled.Text`
   color: ${TINT_COLOR};
-  font-size: 40;
+  font-size: ${midTextSize};
   font-weight: 200;
 `;
 
 const Counter = styled.Text`
   color: ${TINT_COLOR};
-  font-size: 100;
+  font-size: ${bigTextSize};
   font-weight: 200;
 `;
 
-const DrinkPicker = styled.Picker`
+const PickerContainer = styled.View`
   background-color: white;
-  border-radius: 10px;
+  border-radius: 20px;
+  padding: ${Platform.OS === "ios" ? "5px" : "15px"};
+`;
+
+const DrinkPicker = styled.Picker`
   justify-content: center;
-  width: 80;
+  width: ${Platform.OS === "ios" ? Layout.width / 4 : Layout.width / 3};
   height: 50;
+  color: ${BG_COLOR};
 `;
 
 const CounterPresenter = ({
@@ -89,16 +98,24 @@ const CounterPresenter = ({
     <Container>
       <Upper>
         <TextButton name="다마심" onPress={resetCount} />
-        <DrinkPicker
-          selectedValue={drinkId}
-          onValueChange={itemValue => changeDrink(itemValue)}
-          mode="dropdown"
-          itemStyle={{ color: BG_COLOR }}
-        >
-          {drinks.map(drink => (
-            <Picker.Item key={drink.id} label={drink.name} value={drink.id} />
-          ))}
-        </DrinkPicker>
+        <PickerContainer>
+          <DrinkPicker
+            selectedValue={drinkId}
+            onValueChange={itemValue => changeDrink(itemValue)}
+            mode="dropdown"
+            style={{
+              transform:
+                Platform.OS === "ios" ? null : [{ scaleX: 1 }, { scaleY: 2 }]
+            }}
+            itemStyle={{
+              color: BG_COLOR
+            }}
+          >
+            {drinks.map(drink => (
+              <Picker.Item key={drink.id} label={drink.name} value={drink.id} />
+            ))}
+          </DrinkPicker>
+        </PickerContainer>
       </Upper>
       <Middle>
         <AlcoholRate>{`${bac}%`}</AlcoholRate>
