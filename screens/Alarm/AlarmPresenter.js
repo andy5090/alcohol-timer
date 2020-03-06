@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Vibration } from "react-native";
+import { Audio } from "expo-av";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
@@ -44,7 +45,29 @@ const Container = styled.View`
   flex: 1;
 `;
 
-const PATTERN = [1000, 2000, 3000];
+const PATTERN = [1000, 1000, 1000];
+const soundObject = new Audio.Sound();
+
+const playRingtone = async () => {
+  try {
+    await soundObject.loadAsync(
+      require("../../assets/Twin-bell-alarm-clock-sound.mp3")
+    );
+    await soundObject.setIsLoopingAsync(true);
+    await soundObject.playAsync();
+  } catch (error) {
+    // An error occurred!
+  }
+};
+
+const stopRingtone = async () => {
+  try {
+    await soundObject.stopAsync();
+    await soundObject.unloadAsync();
+  } catch (error) {
+    // An error occurred!
+  }
+};
 
 const AlarmPresenter = ({
   loaded,
@@ -55,10 +78,14 @@ const AlarmPresenter = ({
   turnOffAlarm,
   navigation
 }) => {
+  // const [ringLoaded, setRing] = useState(false);
+
   if (alarmOn) {
-    Vibration.vibrate(PATTERN);
+    Vibration.vibrate(PATTERN, true);
+    playRingtone();
   } else {
     Vibration.cancel();
+    stopRingtone();
   }
 
   const randMsgIndex = Math.floor(Math.random() * messages.length);

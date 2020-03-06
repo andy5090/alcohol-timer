@@ -17,6 +17,7 @@ export const createStack = (screen, title) =>
     Screen: {
       screen,
       navigationOptions: () => ({
+        headerShown: false,
         title,
         ...headerStyles
       })

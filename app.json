@@ -26,6 +26,9 @@
       "supportsTablet": true,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-7463080230648874/9642391774"
+      },
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
       }
     }
   }

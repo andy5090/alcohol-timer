@@ -10,7 +10,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { withNavigation } from "react-navigation";
 import Layout from "../../constants/Layout";
 
-const bigTextSize = Layout.defaultFontSize * 3;
+const bigTextSize = Layout.defaultFontSize * 2.5;
+const textSize = Layout.defaultFontSize;
 
 const formatTime = time => {
   let hours = 0;
@@ -47,7 +48,20 @@ const Container = styled.View`
   flex: 1;
 `;
 
-const Upper = styled.View`
+const Upper1 = styled.View`
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const TitleText = styled.Text`
+  color: ${TINT_COLOR};
+  font-size: ${textSize};
+  font-weight: 200;
+`;
+
+const Upper2 = styled.View`
   flex-direction: row;
   flex: 1;
   justify-content: space-around;
@@ -55,7 +69,7 @@ const Upper = styled.View`
 `;
 
 const Middle = styled.View`
-  flex: 1;
+  flex: 2;
   justify-content: center;
   align-items: center;
 `;
@@ -67,9 +81,17 @@ const Timer = styled.Text`
 `;
 
 const Lower = styled.View`
-  flex: 1;
+  flex: 2;
   justify-content: center;
   align-items: center;
+`;
+
+const TimerGradient = styled(LinearGradient)`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 `;
 
 const TimerPresenter = ({
@@ -95,25 +117,38 @@ const TimerPresenter = ({
     <Loader />
   ) : (
     <Container>
-      <Upper>
-        <TextButton name="+30분" onPress={plusHalfHour} />
-        <TextButton name="+1시간" onPress={plusHour} />
-      </Upper>
-      <Middle>
-        <Timer> {formatTime(timerDuration - elapsedTime)}</Timer>
-      </Middle>
-      <Lower>
-        {!isPlaying && (
-          <ImageButton size={120} iconName="play-circle" onPress={startTimer} />
-        )}
-        {isPlaying && (
-          <ImageButton
-            size={120}
-            iconName="stop-circle"
-            onPress={restartTimer}
-          />
-        )}
-      </Lower>
+      <TimerGradient
+        colors={[BG_COLOR, "red", BG_COLOR]}
+        start={[0, elapsedTime / timerDuration - 0.1]}
+        end={[0, elapsedTime / timerDuration]}
+      >
+        <Upper1>
+          <TitleText>Timer</TitleText>
+        </Upper1>
+        <Upper2>
+          <TextButton name="+30분" onPress={plusHalfHour} />
+          <TextButton name="+1시간" onPress={plusHour} />
+        </Upper2>
+        <Middle>
+          <Timer> {formatTime(timerDuration - elapsedTime)}</Timer>
+        </Middle>
+        <Lower>
+          {!isPlaying && (
+            <ImageButton
+              size={120}
+              iconName="play-circle"
+              onPress={startTimer}
+            />
+          )}
+          {isPlaying && (
+            <ImageButton
+              size={120}
+              iconName="stop-circle"
+              onPress={restartTimer}
+            />
+          )}
+        </Lower>
+      </TimerGradient>
     </Container>
   );
 };
