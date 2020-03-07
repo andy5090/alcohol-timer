@@ -86,14 +86,14 @@ const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
       <Upper>
         <TextButton
           name="남성"
-          color={sex === "male" ? SELECTED_COLOR : "white"}
-          fontColor={sex === "male" ? "white" : BG_COLOR}
+          color={sex === "male" ? SELECTED_COLOR : TINT_COLOR}
+          fontColor={sex === "male" ? TINT_COLOR : BG_COLOR}
           onPress={() => changeSex("male")}
         />
         <TextButton
           name="여성"
-          color={sex === "female" ? SELECTED_COLOR : "white"}
-          fontColor={sex === "female" ? "white" : BG_COLOR}
+          color={sex === "female" ? SELECTED_COLOR : TINT_COLOR}
+          fontColor={sex === "female" ? TINT_COLOR : BG_COLOR}
           onPress={() => changeSex("female")}
         />
       </Upper>

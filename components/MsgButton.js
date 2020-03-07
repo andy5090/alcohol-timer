@@ -58,6 +58,7 @@ const MsgButton = ({
   removeMessage
 }) => {
   const [editMode, setEdit] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
   const [newText, setText] = useState("");
 
   const _onInput = () => {
@@ -106,8 +107,12 @@ const MsgButton = ({
                 <FontAwesome name={"check-circle"} size={40} color={"green"} />
               </TouchableOpacity>
               {id !== "new" ? (
-                <TouchableOpacity onPressOut={_onDelete}>
-                  <FontAwesome name={"times-circle"} size={40} color={"red"} />
+                <TouchableOpacity onPressOut={_onCancle}>
+                  <FontAwesome
+                    name={"times-circle"}
+                    size={40}
+                    color={"yellow"}
+                  />
                 </TouchableOpacity>
               ) : null}
             </FuntionContainer>

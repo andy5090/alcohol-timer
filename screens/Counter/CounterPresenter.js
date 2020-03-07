@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Picker, Platform } from "react-native";
+import { Platform, Modal, TouchableWithoutFeedback } from "react-native";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import TextButton from "../../components/TextButton";
 import ImageButton from "../../components/ImageButton";
-import { BG_COLOR, TINT_COLOR } from "../../constants/Colors";
+import { BG_COLOR, TINT_COLOR, SELECTED_COLOR } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 
 const midTextSize = Layout.defaultFontSize * 2;
@@ -47,17 +47,27 @@ const Counter = styled.Text`
   font-weight: 200;
 `;
 
-const PickerContainer = styled.View`
+const PickerBox = styled.View`
   background-color: white;
   border-radius: 20px;
-  padding: ${Platform.OS === "ios" ? "5px" : "15px"};
 `;
 
-const DrinkPicker = styled.Picker`
+const PickerContainer = styled.View`
+  background-color: transparent;
+  align-items: center;
   justify-content: center;
-  width: ${Platform.OS === "ios" ? Layout.width / 4 : Layout.width / 3};
-  height: 50;
-  color: ${BG_COLOR};
+  flex: 1;
+`;
+
+const EmptyContainer = styled.View`
+  flex: 1;
+`;
+
+const TouchableContainer = styled.View`
+  background-color: rgba(255, 255, 255, 0.4);
+  flex-direction: row;
+  justify-content: center;
+  flex: 1;
 `;
 
 const CounterPresenter = ({
@@ -71,6 +81,9 @@ const CounterPresenter = ({
   sex,
   weight
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [pickerPosition, setpickerPosition] = useState(0);
+
   let chosenDrink, amount, degree;
 
   if (drinkId === null) {
@@ -96,26 +109,41 @@ const CounterPresenter = ({
     <Loader />
   ) : (
     <Container>
+      <Modal transparent={true} visible={modalVisible}>
+        <TouchableWithoutFeedback
+          onPress={event => {
+            setModalVisible(false);
+          }}
+        >
+          <TouchableContainer>
+            <EmptyContainer></EmptyContainer>
+            <PickerContainer>
+              <PickerBox>
+                {drinks.map(drink => (
+                  <TextButton
+                    key={drink.id}
+                    name={drink.name}
+                    color={drink.id === drinkId ? SELECTED_COLOR : TINT_COLOR}
+                    fontColor={drink.id === drinkId ? TINT_COLOR : BG_COLOR}
+                    onPress={() => {
+                      changeDrink(drink.id);
+                      setModalVisible(false);
+                    }}
+                  />
+                ))}
+              </PickerBox>
+            </PickerContainer>
+          </TouchableContainer>
+        </TouchableWithoutFeedback>
+      </Modal>
       <Upper>
         <TextButton name="다마심" onPress={resetCount} />
-        <PickerContainer>
-          <DrinkPicker
-            selectedValue={drinkId}
-            onValueChange={itemValue => changeDrink(itemValue)}
-            mode="dropdown"
-            style={{
-              transform:
-                Platform.OS === "ios" ? null : [{ scaleX: 1 }, { scaleY: 2 }]
-            }}
-            itemStyle={{
-              color: BG_COLOR
-            }}
-          >
-            {drinks.map(drink => (
-              <Picker.Item key={drink.id} label={drink.name} value={drink.id} />
-            ))}
-          </DrinkPicker>
-        </PickerContainer>
+        <TextButton
+          name={chosenDrink.name}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        />
       </Upper>
       <Middle>
         <AlcoholRate>{`${bac}%`}</AlcoholRate>

@@ -130,8 +130,12 @@ const DrinkButton = ({
                 <FontAwesome name={"check-circle"} size={40} color={"green"} />
               </TouchableOpacity>
               {id !== "new" ? (
-                <TouchableOpacity onPressOut={_onDelete}>
-                  <FontAwesome name={"times-circle"} size={40} color={"red"} />
+                <TouchableOpacity onPressOut={_onCancle}>
+                  <FontAwesome
+                    name={"times-circle"}
+                    size={40}
+                    color={"yellow"}
+                  />
                 </TouchableOpacity>
               ) : null}
             </FuntionContainer>

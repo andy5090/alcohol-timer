@@ -7,6 +7,9 @@ import TextButton from "../../components/TextButton";
 import { withNavigation } from "react-navigation";
 
 const Container = styled.View`
+  padding-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: ${BG_COLOR};
   flex: 1;
 `;

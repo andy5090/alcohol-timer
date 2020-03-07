@@ -10,7 +10,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { withNavigation } from "react-navigation";
 import Layout from "../../constants/Layout";
 
-const bigTextSize = Layout.defaultFontSize * 2.5;
+const bigTextSize = Layout.defaultFontSize * 3;
 const textSize = Layout.defaultFontSize;
 
 const formatTime = time => {
@@ -48,20 +48,7 @@ const Container = styled.View`
   flex: 1;
 `;
 
-const Upper1 = styled.View`
-  flex-direction: row;
-  flex: 1;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const TitleText = styled.Text`
-  color: ${TINT_COLOR};
-  font-size: ${textSize};
-  font-weight: 200;
-`;
-
-const Upper2 = styled.View`
+const Upper = styled.View`
   flex-direction: row;
   flex: 1;
   justify-content: space-around;
@@ -69,7 +56,7 @@ const Upper2 = styled.View`
 `;
 
 const Middle = styled.View`
-  flex: 2;
+  flex: 1;
   justify-content: center;
   align-items: center;
 `;
@@ -81,7 +68,7 @@ const Timer = styled.Text`
 `;
 
 const Lower = styled.View`
-  flex: 2;
+  flex: 1;
   justify-content: center;
   align-items: center;
 `;
@@ -122,13 +109,10 @@ const TimerPresenter = ({
         start={[0, elapsedTime / timerDuration - 0.1]}
         end={[0, elapsedTime / timerDuration]}
       >
-        <Upper1>
-          <TitleText>Timer</TitleText>
-        </Upper1>
-        <Upper2>
+        <Upper>
           <TextButton name="+30분" onPress={plusHalfHour} />
           <TextButton name="+1시간" onPress={plusHour} />
-        </Upper2>
+        </Upper>
         <Middle>
           <Timer> {formatTime(timerDuration - elapsedTime)}</Timer>
         </Middle>
