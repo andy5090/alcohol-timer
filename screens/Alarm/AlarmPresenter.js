@@ -8,10 +8,14 @@ import { BG_COLOR } from "../../constants/Colors";
 import ImageButton from "../../components/ImageButton";
 import { withNavigation } from "react-navigation";
 import { AdMobBanner } from "expo-ads-admob";
+import Layout from "../../constants/Layout";
+
+const bigTextSize = Layout.defaultFontSize * 2;
+const paddingSize = Layout.defaultFontSize * 1.5;
 
 const AlarmMsgContainer = styled.View`
   margin: 5px;
-  flex: 2;
+  flex: 8;
   background-color: white;
   border-radius: 20px;
   justify-content: center;
@@ -19,10 +23,10 @@ const AlarmMsgContainer = styled.View`
 `;
 
 const AlarmMessage = styled.Text`
-  padding: 20px;
+  padding: ${paddingSize}px;
   color: ${BG_COLOR};
-  font-size: 30;
-  font-weight: 200;
+  font-family: "BlackHanSans-Regular";
+  font-size: ${bigTextSize};
 `;
 
 const CloseButtonContainer = styled.View`
@@ -33,7 +37,7 @@ const CloseButtonContainer = styled.View`
 
 const AdvertContainer = styled.View`
   margin: 5px;
-  flex: 4;
+  flex: 8;
   background-color: white;
   border-radius: 20px;
   align-items: center;
@@ -96,7 +100,8 @@ const AlarmPresenter = ({
       <AlarmMsgContainer>
         <AlarmMessage>{messages[randMsgIndex].text}</AlarmMessage>
       </AlarmMsgContainer>
-      <CloseButtonContainer>
+      <CloseButtonContainer></CloseButtonContainer>
+      <AdvertContainer>
         <ImageButton
           iconName="window-close"
           onPress={() => {
@@ -106,8 +111,6 @@ const AlarmPresenter = ({
           size={60}
           color={"white"}
         />
-      </CloseButtonContainer>
-      <AdvertContainer>
         <AdMobBanner
           bannerSize="mediumRectangle"
           adUnitID="ca-app-pub-3940256099942544/2934735716"

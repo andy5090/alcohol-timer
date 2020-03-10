@@ -6,7 +6,7 @@ import TimerScreen from "../screens/Timer";
 import CounterScreen from "../screens/Counter";
 import SettingScreen from "../screens/Setting";
 import TabBarIcon from "../components/TabBarIcon";
-import { BG_COLOR } from "../constants/Colors";
+import { BG_COLOR, SELECTED_COLOR } from "../constants/Colors";
 import { createStack } from "./config";
 import Layout from "../constants/Layout";
 
@@ -51,7 +51,8 @@ const TabNavigation = createBottomTabNavigator(
       showLabel: false,
       style: {
         height: Layout.defaultFontSize * 3,
-        backgroundColor: BG_COLOR
+
+        backgroundColor: SELECTED_COLOR
       }
     }
   }

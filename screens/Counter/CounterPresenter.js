@@ -37,12 +37,14 @@ const Lower = styled.View`
 
 const AlcoholRate = styled.Text`
   color: ${TINT_COLOR};
+  font-family: "Montserrat-Thin";
   font-size: ${midTextSize};
   font-weight: 200;
 `;
 
 const Counter = styled.Text`
   color: ${TINT_COLOR};
+  font-family: "Montserrat-Light";
   font-size: ${bigTextSize};
   font-weight: 200;
 `;

@@ -15,6 +15,7 @@ const ButtonText = styled.Text`
   padding: 20px;
   align-self: center;
   color: ${props => props.fontColor};
+  font-family: "MapoGoldenPier";
   font-size: ${props => props.fontSize};
   font-weight: 200;
 `;

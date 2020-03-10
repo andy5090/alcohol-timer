@@ -5,12 +5,12 @@ import Loader from "../../components/Loader";
 import styled from "styled-components";
 import ImageButton from "../../components/ImageButton";
 import TextButton from "../../components/TextButton";
-import { TINT_COLOR, BG_COLOR } from "../../constants/Colors";
+import { TINT_COLOR, BG_COLOR, ALERT_COLOR } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { withNavigation } from "react-navigation";
 import Layout from "../../constants/Layout";
 
-const bigTextSize = Layout.defaultFontSize * 3;
+const bigTextSize = Layout.defaultFontSize * 2.8;
 const textSize = Layout.defaultFontSize;
 
 const formatTime = time => {
@@ -63,8 +63,9 @@ const Middle = styled.View`
 
 const Timer = styled.Text`
   color: ${TINT_COLOR};
+  font-family: "Montserrat-Light";
   font-size: ${bigTextSize};
-  font-weight: 200;
+  padding-right: 20;
 `;
 
 const Lower = styled.View`
@@ -105,8 +106,8 @@ const TimerPresenter = ({
   ) : (
     <Container>
       <TimerGradient
-        colors={[BG_COLOR, "red", BG_COLOR]}
-        start={[0, elapsedTime / timerDuration - 0.1]}
+        colors={[ALERT_COLOR, ALERT_COLOR, BG_COLOR]}
+        start={[0, elapsedTime / timerDuration - 0.3]}
         end={[0, elapsedTime / timerDuration]}
       >
         <Upper>
