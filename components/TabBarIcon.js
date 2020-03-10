@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ACTIVE_COLOR, INACTIVE_COLOR } from "../constants/Colors";
 import Layout from "../constants/Layout";
 
 const iconSize = Layout.defaultFontSize * 1.5;
 
 const TabBarIcon = ({ name, focused }) => (
-  <Ionicons
+  <MaterialCommunityIcons
     size={iconSize}
     name={name}
     color={focused ? ACTIVE_COLOR : INACTIVE_COLOR}

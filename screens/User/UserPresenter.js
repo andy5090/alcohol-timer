@@ -13,6 +13,7 @@ import Layout from "../../constants/Layout";
 
 const textSize = Layout.defaultFontSize;
 const paddingGap = Layout.defaultFontSize * 2;
+const smallPaddingGap = Layout.defaultFontSize;
 
 const Container = styled.View`
   background-color: ${BG_COLOR};
@@ -38,16 +39,16 @@ const WeightContatiner = styled.View`
 `;
 
 const UserText = styled.Text`
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: ${smallPaddingGap};
+  padding-bottom: ${smallPaddingGap};
   color: ${TINT_COLOR};
   font-family: "BlackHanSans-Regular";
   font-size: ${textSize * 2};
 `;
 
 const UserTextInput = styled.TextInput`
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: ${smallPaddingGap};
+  padding-bottom: ${smallPaddingGap};
   color: ${TINT_COLOR};
   font-family: "BlackHanSans-Regular";
   font-size: ${textSize * 2};

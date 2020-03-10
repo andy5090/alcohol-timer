@@ -16,10 +16,7 @@ const TabNavigation = createBottomTabNavigator(
       screen: createStack(TimerScreen, "Timer"),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === "ios" ? "ios-timer" : "md-timer"}
-          ></TabBarIcon>
+          <TabBarIcon focused={focused} name={"timer"}></TabBarIcon>
         )
       }
     },
@@ -27,10 +24,7 @@ const TabNavigation = createBottomTabNavigator(
       screen: createStack(CounterScreen, "Counter"),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === "ios" ? "ios-pint" : "md-pint"}
-          ></TabBarIcon>
+          <TabBarIcon focused={focused} name={"beer"}></TabBarIcon>
         )
       }
     },
@@ -38,10 +32,7 @@ const TabNavigation = createBottomTabNavigator(
       screen: createStack(SettingScreen, "Setting"),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === "ios" ? "ios-settings" : "md-settings"}
-          ></TabBarIcon>
+          <TabBarIcon focused={focused} name={"settings"}></TabBarIcon>
         )
       }
     }
@@ -51,7 +42,6 @@ const TabNavigation = createBottomTabNavigator(
       showLabel: false,
       style: {
         height: Layout.defaultFontSize * 3,
-
         backgroundColor: SELECTED_COLOR
       }
     }

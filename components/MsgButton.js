@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { TextInput } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
-import { BG_COLOR } from "../constants/Colors";
+import { BG_COLOR, GREY_COLOR } from "../constants/Colors";
 import ImageButton from "./ImageButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -12,7 +12,10 @@ import uuidv1 from "uuid/v1";
 import { FontAwesome } from "@expo/vector-icons";
 import Layout from "../constants/Layout";
 
-const textSize = Layout.defaultFontSize;
+const textSize = Layout.defaultFontSize / 1.2;
+const paddingGap = Layout.defaultFontSize / 1.5;
+const smallButtonSize = Layout.defaultFontSize;
+const buttonSize = Layout.defaultFontSize * 1.5;
 
 const ButtonContainer = styled.View`
   flex-direction: row;
@@ -30,6 +33,7 @@ const InputContainer = styled.View`
 `;
 
 const FuntionContainer = styled.View`
+  padding-left: ${paddingGap};
   flex-direction: row;
   justify-content: center;
 `;
@@ -39,14 +43,12 @@ const ButtonText = styled.Text`
   align-self: center;
   color: ${BG_COLOR};
   font-size: ${textSize};
-  font-weight: 200;
 `;
 
 const EditText = styled.TextInput`
   padding: 20px;
   color: ${BG_COLOR};
   font-size: ${textSize};
-  font-weight: 200;
 `;
 
 const MsgButton = ({
@@ -61,6 +63,8 @@ const MsgButton = ({
   const [deleteMode, setDeleteMode] = useState(false);
   const [newText, setText] = useState("");
 
+  const editInput = useRef(null);
+
   const _onInput = () => {
     if (editMode) setEdit(false);
     else setEdit(true);
@@ -68,6 +72,12 @@ const MsgButton = ({
 
   const _onUpdate = changedText => {
     setText(changedText);
+  };
+
+  const _onReset = () => {
+    setText("");
+    editInput.current.clear();
+    editInput.current.focus();
   };
 
   const _onCancle = () => {
@@ -96,25 +106,28 @@ const MsgButton = ({
         {editMode ? (
           <InputContainer>
             <EditText
+              ref={editInput}
               placeholder={text}
               autoFocus={true}
               autoCorrect={false}
               onSubmitEditing={_onSave}
               onChangeText={changedText => _onUpdate(changedText)}
             />
+            <TouchableOpacity onPressOut={_onReset}>
+              <FontAwesome
+                name={"remove"}
+                size={smallButtonSize}
+                color={GREY_COLOR}
+              />
+            </TouchableOpacity>
             <FuntionContainer>
               <TouchableOpacity onPressOut={_onSave}>
-                <FontAwesome name={"check-circle"} size={40} color={"green"} />
+                <FontAwesome
+                  name={"check-circle"}
+                  size={buttonSize}
+                  color={"green"}
+                />
               </TouchableOpacity>
-              {id !== "new" ? (
-                <TouchableOpacity onPressOut={_onCancle}>
-                  <FontAwesome
-                    name={"times-circle"}
-                    size={40}
-                    color={"yellow"}
-                  />
-                </TouchableOpacity>
-              ) : null}
             </FuntionContainer>
           </InputContainer>
         ) : (
