@@ -3,7 +3,7 @@ import { TextInput } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
-import { BG_COLOR, GREY_COLOR } from "../constants/Colors";
+import { BG_COLOR, GREY_COLOR, ALERT_COLOR } from "../constants/Colors";
 import ImageButton from "./ImageButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -11,11 +11,12 @@ import { messageActionCreator } from "../redux/actions/messageActions";
 import uuidv1 from "uuid/v1";
 import { FontAwesome } from "@expo/vector-icons";
 import Layout from "../constants/Layout";
+import { setIsEnabledAsync } from "expo-av/build/Audio";
 
 const textSize = Layout.defaultFontSize / 1.2;
 const paddingGap = Layout.defaultFontSize / 1.5;
 const smallButtonSize = Layout.defaultFontSize;
-const buttonSize = Layout.defaultFontSize * 1.5;
+const buttonSize = Layout.defaultFontSize * 1.7;
 
 const ButtonContainer = styled.View`
   flex-direction: row;
@@ -39,16 +40,18 @@ const FuntionContainer = styled.View`
 `;
 
 const ButtonText = styled.Text`
-  padding: 20px;
-  align-self: center;
+  padding: ${textSize}px;
   color: ${BG_COLOR};
+  font-family: "OpenSans-Regular";
   font-size: ${textSize};
 `;
 
 const EditText = styled.TextInput`
-  padding: 20px;
+  padding: ${textSize}px;
   color: ${BG_COLOR};
+  font-family: "OpenSans-Regular";
   font-size: ${textSize};
+  width: ${textSize * 12};
 `;
 
 const MsgButton = ({
@@ -57,18 +60,14 @@ const MsgButton = ({
   color = "white",
   addMessage,
   editMessage,
-  removeMessage
+  removeMessage,
+  noticeEdit,
+  isEditing
 }) => {
-  const [editMode, setEdit] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
   const [newText, setText] = useState("");
 
   const editInput = useRef(null);
-
-  const _onInput = () => {
-    if (editMode) setEdit(false);
-    else setEdit(true);
-  };
 
   const _onUpdate = changedText => {
     setText(changedText);
@@ -80,10 +79,6 @@ const MsgButton = ({
     editInput.current.focus();
   };
 
-  const _onCancle = () => {
-    setEdit(false);
-  };
-
   const _onSave = () => {
     if (newText !== "") {
       if (id === "new") {
@@ -92,18 +87,26 @@ const MsgButton = ({
         editMessage(id, newText);
       }
     }
-    setEdit(false);
+    noticeEdit("done");
   };
 
   const _onDelete = () => {
     removeMessage(id);
-    setEdit(false);
   };
 
   return (
-    <TouchableOpacity onPressOut={_onInput}>
+    <TouchableOpacity
+      onPress={() => {
+        noticeEdit(id);
+        if (deleteMode) setDeleteMode(false);
+      }}
+      onLongPress={() => {
+        setDeleteMode(true);
+        noticeEdit("none");
+      }}
+    >
       <ButtonContainer color={color}>
-        {editMode ? (
+        {isEditing ? (
           <InputContainer>
             <EditText
               ref={editInput}
@@ -125,13 +128,28 @@ const MsgButton = ({
                 <FontAwesome
                   name={"check-circle"}
                   size={buttonSize}
-                  color={"green"}
+                  color={"#009432"}
                 />
               </TouchableOpacity>
             </FuntionContainer>
           </InputContainer>
         ) : (
-          <ButtonText>{text}</ButtonText>
+          <>
+            {deleteMode ? (
+              <InputContainer>
+                <ButtonText>{text}</ButtonText>
+                <TouchableOpacity onPressOut={_onDelete}>
+                  <FontAwesome
+                    name={"trash"}
+                    size={buttonSize}
+                    color={ALERT_COLOR}
+                  />
+                </TouchableOpacity>
+              </InputContainer>
+            ) : (
+              <ButtonText>{text}</ButtonText>
+            )}
+          </>
         )}
       </ButtonContainer>
     </TouchableOpacity>

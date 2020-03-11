@@ -1,35 +1,57 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import { BG_COLOR } from "../../constants/Colors";
-import TextButton from "../../components/TextButton";
-import Dialog from "react-native-dialog";
 import MsgButton from "../../components/MsgButton";
+import Layout from "../../constants/Layout";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
-const Container = styled.ScrollView`
+const iosPadding = Layout.defaultFontSize * 4.5;
+
+const OuterContainer = styled.View`
   background-color: ${BG_COLOR};
   flex: 1;
 `;
 
-const AlarmMsgsPresenter = ({ loaded, messages }) => {
+const EmptyView = styled.View`
+  height: ${iosPadding}px;
+`;
+
+const ScrollContainer = styled.ScrollView`
+  padding-left: 2px;
+  padding-right: 2px;
+`;
+
+const AlarmMsgsPresenter = ({ loaded, messages, currentEdit, noticeEdit }) => {
   return loaded ? (
     <Loader />
   ) : (
-    <Container>
+    <OuterContainer>
       <KeyboardAvoidingView behavior="padding" enabled>
-        {messages.map(message => (
-          <MsgButton key={message.id} id={message.id} text={message.text} />
-        ))}
-        <MsgButton
-          key={"add_new"}
-          id={"new"}
-          text={"+ 알림 매세지 추가"}
-          color={"#dfe6e9"}
-        />
+        <ScrollContainer>
+          {messages.map(message => (
+            <MsgButton
+              key={message.id}
+              id={message.id}
+              text={message.text}
+              isEditing={currentEdit === message.id ? true : false}
+              noticeEdit={noticeEdit}
+            />
+          ))}
+          <MsgButton
+            key={"add_new"}
+            id={"new"}
+            text={"+ 알림 매세지 추가"}
+            isEditing={currentEdit === "new" ? true : false}
+            noticeEdit={noticeEdit}
+            color={"#dfe6e9"}
+          />
+          {Platform.OS === "ios" ? <EmptyView></EmptyView> : null}
+        </ScrollContainer>
       </KeyboardAvoidingView>
-    </Container>
+    </OuterContainer>
   );
 };
 

@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { TextInput } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
-import { BG_COLOR } from "../constants/Colors";
-import ImageButton from "./ImageButton";
+import uuidv1 from "uuid/v1";
+import { BG_COLOR, GREY_COLOR, ALERT_COLOR } from "../constants/Colors";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { drinkActionCreator } from "../redux/actions/drinkActions";
-import uuidv1 from "uuid/v1";
 import { FontAwesome } from "@expo/vector-icons";
 import Layout from "../constants/Layout";
 
-const textSize = Layout.defaultFontSize;
+const textSize = Layout.defaultFontSize / 1.2;
+const paddingGap = Layout.defaultFontSize / 1.5;
+const smallButtonSize = Layout.defaultFontSize;
+const buttonSize = Layout.defaultFontSize * 1.7;
 
 const ButtonContainer = styled.View`
   flex-direction: row;
@@ -30,26 +32,26 @@ const InputContainer = styled.View`
 `;
 
 const FuntionContainer = styled.View`
+  padding-left: ${paddingGap};
+  padding-right: ${paddingGap};
   flex-direction: row;
   justify-content: center;
 `;
 
 const ButtonText = styled.Text`
-  padding: 20px;
-  align-self: center;
+  padding: ${textSize}px;
   color: ${BG_COLOR};
+  font-family: "OpenSans-Regular";
   font-size: ${textSize};
-  font-weight: 200;
 `;
 
 const EditText = styled.TextInput`
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-top: ${textSize}px;
+  padding-bottom: ${textSize}px;
+  padding-left: ${textSize}px;
   color: ${BG_COLOR};
+  font-family: "OpenSans-Regular";
   font-size: ${textSize};
-  font-weight: 200;
 `;
 
 const DrinkButton = ({
@@ -60,17 +62,18 @@ const DrinkButton = ({
   color = "white",
   addDrink,
   editDrink,
-  removeDrink
+  removeDrink,
+  noticeEdit,
+  isEditing
 }) => {
-  const [editMode, setEdit] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
   const [newName, setName] = useState("");
   const [newAmount, setAmount] = useState("");
   const [newDegree, setDegree] = useState("");
 
-  const _onInput = () => {
-    if (editMode) setEdit(false);
-    else setEdit(true);
-  };
+  const editInput1 = useRef(null);
+  const editInput2 = useRef(null);
+  const editInput3 = useRef(null);
 
   const _onUpdateName = changedText => {
     setName(changedText);
@@ -82,8 +85,14 @@ const DrinkButton = ({
     setDegree(changedText);
   };
 
-  const _onCancle = () => {
-    setEdit(false);
+  const _onReset = () => {
+    setName("");
+    setAmount("");
+    setDegree("");
+    editInput1.current.clear();
+    editInput2.current.clear();
+    editInput3.current.clear();
+    editInput1.current.focus();
   };
 
   const _onSave = () => {
@@ -94,56 +103,99 @@ const DrinkButton = ({
         editDrink(id, newName, newAmount, newDegree);
       }
     }
-    setEdit(false);
+    noticeEdit("done");
   };
 
   const _onDelete = () => {
     removeDrink(id);
-    setEdit(false);
   };
 
   return (
-    <TouchableOpacity onPressOut={_onInput}>
+    <TouchableOpacity
+      onPress={() => {
+        noticeEdit(id);
+        if (deleteMode) setDeleteMode(false);
+      }}
+      onLongPress={() => {
+        setDeleteMode(true);
+        noticeEdit("none");
+      }}
+    >
       <ButtonContainer color={color}>
-        {editMode ? (
+        {isEditing ? (
           <InputContainer>
             <EditText
+              ref={editInput1}
               placeholder={name}
               autoFocus={true}
               autoCorrect={false}
+              onSubmitEditing={() => {
+                setName(name);
+                editInput2.current.focus();
+              }}
+              style={{ width: textSize * 5 }}
               onChangeText={changedText => _onUpdateName(changedText)}
             />
             <EditText
-              placeholder={`1잔${amount}ml`}
+              ref={editInput2}
+              keyboardType={"number-pad"}
+              placeholder={`${amount}ml`}
               autoFocus={false}
               autoCorrect={false}
+              onSubmitEditing={() => {
+                setAmount(amount);
+                editInput3.current.focus();
+              }}
+              style={{ width: amount.length * textSize * 1.5 }}
               onChangeText={changedText => _onUpdateAmount(changedText)}
             />
             <EditText
+              ref={editInput3}
+              keyboardType={"number-pad"}
               placeholder={`${degree}%`}
               autoFocus={false}
               autoCorrect={false}
+              onSubmitEditing={_onSave}
+              style={{ width: amount.length * textSize * 1.2 }}
               onChangeText={changedText => _onUpdateDegree(changedText)}
             />
+            <TouchableOpacity onPressOut={_onReset}>
+              <FontAwesome
+                name={"remove"}
+                size={smallButtonSize}
+                color={GREY_COLOR}
+              />
+            </TouchableOpacity>
             <FuntionContainer>
               <TouchableOpacity onPressOut={_onSave}>
-                <FontAwesome name={"check-circle"} size={40} color={"green"} />
+                <FontAwesome
+                  name={"check-circle"}
+                  size={buttonSize}
+                  color={"#009432"}
+                />
               </TouchableOpacity>
-              {id !== "new" ? (
-                <TouchableOpacity onPressOut={_onCancle}>
-                  <FontAwesome
-                    name={"times-circle"}
-                    size={40}
-                    color={"yellow"}
-                  />
-                </TouchableOpacity>
-              ) : null}
             </FuntionContainer>
           </InputContainer>
         ) : (
           <>
-            <ButtonText>{name}</ButtonText>
-            {id !== "new" ? <ButtonText>{degree}%</ButtonText> : null}
+            {deleteMode ? (
+              <InputContainer>
+                <ButtonText>{name}</ButtonText>
+                {id !== "new" ? <ButtonText>{degree}%</ButtonText> : null}
+                <TouchableOpacity onPressOut={_onDelete}>
+                  <FontAwesome
+                    name={"trash"}
+                    size={buttonSize}
+                    color={ALERT_COLOR}
+                  />
+                </TouchableOpacity>
+              </InputContainer>
+            ) : (
+              <>
+                <ButtonText>{name}</ButtonText>
+                {id !== "new" ? <ButtonText>{degree}%</ButtonText> : null}
+              </>
+            )}
           </>
         )}
       </ButtonContainer>

@@ -3,6 +3,18 @@ import AlarmMsgsPresenter from "./AlarmMsgsPresenter";
 
 export default AlarmMsgsContainer = ({ messages }) => {
   const [loaded, setLoaded] = useState(false);
+  const [currentEdit, setCurrentEdit] = useState(null);
 
-  return <AlarmMsgsPresenter loaded={loaded} messages={messages} />;
+  const noticeEdit = id => {
+    setCurrentEdit(id);
+  };
+
+  return (
+    <AlarmMsgsPresenter
+      loaded={loaded}
+      messages={messages}
+      currentEdit={currentEdit}
+      noticeEdit={noticeEdit}
+    />
+  );
 };

@@ -10,6 +10,11 @@ export default DrinksContainer = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, getError] = useState(null);
+  const [currentEdit, setCurrentEdit] = useState(null);
+
+  const noticeEdit = id => {
+    setCurrentEdit(id);
+  };
 
   return (
     <DrinksPresenter
@@ -19,6 +24,8 @@ export default DrinksContainer = ({
       editDrink={editDrink}
       removeDrink={removeDrink}
       removeAllDrinks={removeAllDrinks}
+      currentEdit={currentEdit}
+      noticeEdit={noticeEdit}
     />
   );
 };

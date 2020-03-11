@@ -4,40 +4,57 @@ import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import { BG_COLOR } from "../../constants/Colors";
-import Dialog from "react-native-dialog";
-import uuidv1 from "uuid/v1";
 import DrinkButton from "../../components/DrinkButton";
+import Layout from "../../constants/Layout";
 
-const Container = styled.View`
+const iosPadding = Layout.defaultFontSize * 4.5;
+
+const OuterContainer = styled.View`
   background-color: ${BG_COLOR};
   flex: 1;
 `;
 
-const DrinksPresenter = ({ loaded, drinks }) => {
+const EmptyView = styled.View`
+  height: ${iosPadding}px;
+`;
+
+const ScrollContainer = styled.ScrollView`
+  padding-left: 2px;
+  padding-right: 2px;
+`;
+
+const DrinksPresenter = ({ loaded, drinks, currentEdit, noticeEdit }) => {
   return loaded ? (
     <Loader />
   ) : (
-    <Container>
+    <OuterContainer>
       <KeyboardAvoidingView behavior="padding" enabled>
-        {drinks.map(drink => (
+        <ScrollContainer>
+          {drinks.map(drink => (
+            <DrinkButton
+              key={drink.id}
+              id={drink.id}
+              name={drink.name}
+              amount={drink.amount}
+              degree={drink.degree}
+              isEditing={currentEdit === drink.id ? true : false}
+              noticeEdit={noticeEdit}
+            />
+          ))}
           <DrinkButton
-            key={drink.id}
-            id={drink.id}
-            name={drink.name}
-            amount={drink.amount}
-            degree={drink.degree}
+            key={"add_new"}
+            id={"new"}
+            name={"+ 알림 매세지 추가"}
+            amount={"500"}
+            degree={"5"}
+            color={"#dfe6e9"}
+            isEditing={currentEdit === "new" ? true : false}
+            noticeEdit={noticeEdit}
           />
-        ))}
-        <DrinkButton
-          key={"add_new"}
-          id={"new"}
-          name={"+ 알림 매세지 추가"}
-          amount={"500"}
-          degree={"5"}
-          color={"#dfe6e9"}
-        />
+          {Platform.OS === "ios" ? <EmptyView></EmptyView> : null}
+        </ScrollContainer>
       </KeyboardAvoidingView>
-    </Container>
+    </OuterContainer>
   );
 };
 
