@@ -1,4 +1,4 @@
-const DEFAULT_TIMER_DURATION = 3;
+const DEFAULT_TIMER_DURATION = 10;
 
 const initialState = {
   isPlaying: false,

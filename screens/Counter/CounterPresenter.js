@@ -1,18 +1,28 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Platform, Modal, TouchableWithoutFeedback } from "react-native";
+import { Platform, Modal, TouchableWithoutFeedback, Alert } from "react-native";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import TextButton from "../../components/TextButton";
 import ImageButton from "../../components/ImageButton";
-import { BG_COLOR, TINT_COLOR, SELECTED_COLOR } from "../../constants/Colors";
+import {
+  BG_COLOR,
+  TINT_COLOR,
+  SELECTED_COLOR,
+  ALERT_COLOR
+} from "../../constants/Colors";
 import Layout from "../../constants/Layout";
+import SelectButton from "../../components/SelectButton";
 
 const midTextSize = Layout.defaultFontSize * 2;
 const bigTextSize = Layout.defaultFontSize * 5;
+const selectorPosX = Layout.defaultFontSize * 1.5;
+const selectorPosY = Layout.defaultFontSize * 2.3;
+const radiusSize = Layout.defaultFontSize;
 
 const Container = styled.View`
-  background-color: ${BG_COLOR};
+  background-color: ${props =>
+    props.alertState === 2 ? ALERT_COLOR : BG_COLOR};
   flex: 1;
 `;
 
@@ -51,7 +61,17 @@ const Counter = styled.Text`
 
 const PickerBox = styled.View`
   background-color: white;
-  border-radius: 20px;
+  border-radius: ${radiusSize}px;
+  ${Platform.select({
+    ios: {
+      shadowColor: "black",
+      shadowOpacity: 0.2,
+      shadowRadius: 5
+    },
+    android: {
+      elevation: 10
+    }
+  })}
 `;
 
 const PickerContainer = styled.View`
@@ -59,10 +79,9 @@ const PickerContainer = styled.View`
   align-items: center;
   justify-content: center;
   flex: 1;
-`;
-
-const EmptyContainer = styled.View`
-  flex: 1;
+  position: absolute;
+  top: ${selectorPosY};
+  right: ${selectorPosX};
 `;
 
 const TouchableContainer = styled.View`
@@ -84,7 +103,7 @@ const CounterPresenter = ({
   weight
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [pickerPosition, setpickerPosition] = useState(0);
+  const [alertState, setAlertState] = useState(0);
 
   let chosenDrink, amount, degree;
 
@@ -107,22 +126,34 @@ const CounterPresenter = ({
         (weightP * sexR * 10)) *
         1000
     ) / 1000;
+
   return loaded ? (
     <Loader />
   ) : (
-    <Container>
+    <Container alertState={alertState}>
+      {bac > 0 && alertState === 0
+        ? Alert.alert(
+            "안내",
+            "본 앱은 중간에 주종이 바뀌는 경우를 고려하지 않습니다. 혈중알콜농도 계산시 수정된 위드마크공식을 사용합니다. 위드마크공식에 의한 혈중알콜농도는 마시는 시간을 계산하지 않습니다. 실제 수치와는 차이가 있으니 주의하시기 바랍니다.",
+            [{ text: "확인", onPress: () => setAlertState(1) }],
+            { cancelable: false }
+          )
+        : null}
+      {bac > 0.03 && alertState === 1
+        ? Alert.alert(
+            "경고",
+            "혈중알콜농도가 음주운전 적발 기준을 넘었습니다. 대중교통을 이용하여 안전 귀가하시기 바랍니다.",
+            [{ text: "확인", onPress: () => setAlertState(2) }],
+            { cancelable: false }
+          )
+        : null}
       <Modal transparent={true} visible={modalVisible}>
-        <TouchableWithoutFeedback
-          onPress={event => {
-            setModalVisible(false);
-          }}
-        >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <TouchableContainer>
-            <EmptyContainer></EmptyContainer>
             <PickerContainer>
               <PickerBox>
                 {drinks.map(drink => (
-                  <TextButton
+                  <SelectButton
                     key={drink.id}
                     name={drink.name}
                     color={drink.id === drinkId ? SELECTED_COLOR : TINT_COLOR}
@@ -139,7 +170,13 @@ const CounterPresenter = ({
         </TouchableWithoutFeedback>
       </Modal>
       <Upper>
-        <TextButton name="다마심" onPress={resetCount} />
+        <TextButton
+          name="다마심"
+          onPress={() => {
+            resetCount();
+            setAlertState(0);
+          }}
+        />
         <TextButton
           name={chosenDrink.name}
           onPress={() => {

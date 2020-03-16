@@ -6,7 +6,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import rootReducer from "../reducers/index";
 
 const logger = createLogger({
-  // predicate: (getState, action) => action.type === ""
+  predicate: (getState, action) => action.type === ""
 });
 
 const persistConfig = {

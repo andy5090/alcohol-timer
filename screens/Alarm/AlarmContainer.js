@@ -8,11 +8,11 @@ export default AlarmContainer = ({
   messages,
   turnOffAlarm
 }) => {
-  const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <AlarmPresenter
-      loaded={loaded}
+      loading={loading}
       elapsedTime={elapsedTime}
       timerDuration={timerDuration}
       alarmOn={alarmOn}

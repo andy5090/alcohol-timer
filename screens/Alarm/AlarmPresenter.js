@@ -1,25 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { Vibration } from "react-native";
 import { Audio } from "expo-av";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
-import { BG_COLOR } from "../../constants/Colors";
+import { BG_COLOR, INACTIVE_COLOR } from "../../constants/Colors";
 import ImageButton from "../../components/ImageButton";
 import { withNavigation } from "react-navigation";
 import { AdMobBanner } from "expo-ads-admob";
 import Layout from "../../constants/Layout";
 
 const bigTextSize = Layout.defaultFontSize * 2;
+const buttonSize = Layout.defaultFontSize;
 const paddingSize = Layout.defaultFontSize * 1.5;
 
 const AlarmMsgContainer = styled.View`
-  margin: 5px;
-  flex: 8;
+  margin: 4px;
   background-color: white;
-  border-radius: 20px;
+  border-radius: ${buttonSize}px;
   justify-content: center;
   align-items: center;
+  flex: 1;
 `;
 
 const AlarmMessage = styled.Text`
@@ -30,22 +31,23 @@ const AlarmMessage = styled.Text`
 `;
 
 const CloseButtonContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 const AdvertContainer = styled.View`
-  margin: 5px;
-  flex: 8;
+  padding: 5px;
+  padding-top: ${buttonSize}px;
   background-color: white;
   border-radius: 20px;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 `;
 
 const Container = styled.View`
   background-color: ${BG_COLOR};
+  padding: ${paddingSize}px;
   flex: 1;
 `;
 
@@ -60,7 +62,7 @@ const playRingtone = async () => {
     await soundObject.setIsLoopingAsync(true);
     await soundObject.playAsync();
   } catch (error) {
-    // An error occurred!
+    console.log(error);
   }
 };
 
@@ -69,12 +71,12 @@ const stopRingtone = async () => {
     await soundObject.stopAsync();
     await soundObject.unloadAsync();
   } catch (error) {
-    // An error occurred!
+    console.log(error);
   }
 };
 
 const AlarmPresenter = ({
-  loaded,
+  loading,
   elapsedTime,
   timerDuration,
   alarmOn,
@@ -82,8 +84,6 @@ const AlarmPresenter = ({
   turnOffAlarm,
   navigation
 }) => {
-  // const [ringLoaded, setRing] = useState(false);
-
   if (alarmOn) {
     Vibration.vibrate(PATTERN, true);
     playRingtone();
@@ -93,27 +93,29 @@ const AlarmPresenter = ({
   }
 
   const randMsgIndex = Math.floor(Math.random() * messages.length);
-  return loaded ? (
+
+  return loading ? (
     <Loader />
   ) : (
     <Container>
       <AlarmMsgContainer>
         <AlarmMessage>{messages[randMsgIndex].text}</AlarmMessage>
       </AlarmMsgContainer>
-      <CloseButtonContainer></CloseButtonContainer>
       <AdvertContainer>
-        <ImageButton
-          iconName="window-close"
-          onPress={() => {
-            turnOffAlarm();
-            navigation.goBack();
-          }}
-          size={60}
-          color={"white"}
-        />
+        <CloseButtonContainer>
+          <ImageButton
+            iconName="window-close"
+            onPress={() => {
+              turnOffAlarm();
+              navigation.goBack();
+            }}
+            size={buttonSize}
+            color={INACTIVE_COLOR}
+          />
+        </CloseButtonContainer>
         <AdMobBanner
           bannerSize="mediumRectangle"
-          adUnitID="ca-app-pub-3940256099942544/2934735716"
+          adUnitID="ca-app-pub-3940256099942544/6300978111"
           onDidFailToReceiveAdWithError={error => console.log(error)}
         />
       </AdvertContainer>
@@ -122,7 +124,7 @@ const AlarmPresenter = ({
 };
 
 AlarmPresenter.propTypes = {
-  loaded: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired
 };
 
 export default withNavigation(AlarmPresenter);

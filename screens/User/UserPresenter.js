@@ -12,8 +12,10 @@ import {
 import Layout from "../../constants/Layout";
 
 const textSize = Layout.defaultFontSize;
+const bigTextSize = Layout.defaultFontSize * 1.5;
 const paddingGap = Layout.defaultFontSize * 2;
-const smallPaddingGap = Layout.defaultFontSize;
+const smallPaddingGap = Layout.defaultFontSize / 2;
+const radiusSize = Layout.defaultFontSize;
 
 const Container = styled.View`
   background-color: ${BG_COLOR};
@@ -33,25 +35,43 @@ const Middle = styled.View`
   flex: 1;
 `;
 
+const OutlineBox = styled.View`
+  background-color: ${TINT_COLOR};
+  border-radius: ${radiusSize};
+  margin-left: ${paddingGap}px;
+  margin-right: ${paddingGap}px;
+`;
+
 const WeightContatiner = styled.View`
   flex-direction: row;
   justify-content: center;
+  margin: 5px;
+  background-color: ${BG_COLOR};
+  border-radius: ${radiusSize / 1.2};
 `;
 
 const UserText = styled.Text`
-  padding-top: ${smallPaddingGap};
-  padding-bottom: ${smallPaddingGap};
+  padding-top: ${smallPaddingGap}px;
+  padding-bottom: ${smallPaddingGap}px;
   color: ${TINT_COLOR};
-  font-family: "BlackHanSans-Regular";
-  font-size: ${textSize * 2};
+  font-family: "MapoDPP";
+  font-size: ${bigTextSize};
+`;
+
+const WeightText = styled.Text`
+  padding-top: ${smallPaddingGap}px;
+  padding-bottom: ${smallPaddingGap}px;
+  color: ${TINT_COLOR};
+  font-family: "MapoDPP";
+  font-size: ${bigTextSize};
 `;
 
 const UserTextInput = styled.TextInput`
-  padding-top: ${smallPaddingGap};
-  padding-bottom: ${smallPaddingGap};
+  padding-top: ${smallPaddingGap}px;
+  padding-bottom: ${smallPaddingGap}px;
   color: ${TINT_COLOR};
-  font-family: "BlackHanSans-Regular";
-  font-size: ${textSize * 2};
+  font-family: "MapoDPP";
+  font-size: ${bigTextSize};
 `;
 
 const Lower = styled.View`
@@ -75,10 +95,6 @@ const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
   const _onInput = () => {
     if (editMode) setEdit(false);
     else setEdit(true);
-  };
-
-  const _onCancel = () => {
-    aetEdit(false);
   };
 
   const _onUpdate = changedText => {
@@ -112,21 +128,24 @@ const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
       </Upper>
       <Middle>
         <TouchableWithoutFeedback onPressOut={_onInput}>
-          <WeightContatiner>
-            <UserText>체중 : </UserText>
-            {editMode ? (
-              <UserTextInput
-                placeholder={weight}
-                autoFocus={true}
-                autoCorrect={false}
-                onSubmitEditing={_onSave}
-                onChangeText={changedText => _onUpdate(changedText)}
-              />
-            ) : (
-              <UserText>{weight}</UserText>
-            )}
-            <UserText>kg</UserText>
-          </WeightContatiner>
+          <OutlineBox>
+            <WeightContatiner>
+              <UserText>체중 : </UserText>
+              {editMode ? (
+                <UserTextInput
+                  placeholder={weight}
+                  autoFocus={true}
+                  autoCorrect={false}
+                  onSubmitEditing={_onSave}
+                  keyboardType={"number-pad"}
+                  onChangeText={changedText => _onUpdate(changedText)}
+                />
+              ) : (
+                <WeightText>{weight}</WeightText>
+              )}
+              <UserText>kg</UserText>
+            </WeightContatiner>
+          </OutlineBox>
         </TouchableWithoutFeedback>
       </Middle>
       <Lower>

@@ -11,16 +11,6 @@ const ButtonContainer = styled.View`
   background-color: ${props => props.color};
   border-radius: ${radiusSize}px;
   margin: 1px;
-  ${Platform.select({
-    ios: {
-      shadowColor: "black",
-      shadowOpacity: 0.2,
-      shadowRadius: 5
-    },
-    android: {
-      elevation: 10
-    }
-  })}
 `;
 
 const ButtonText = styled.Text`
@@ -32,7 +22,7 @@ const ButtonText = styled.Text`
   font-weight: 200;
 `;
 
-function TextButton({
+function SelectButton({
   name,
   onPress,
   fontSize = Layout.defaultFontSize,
@@ -50,10 +40,10 @@ function TextButton({
   );
 }
 
-TextButton.propTypes = {
+SelectButton.propTypes = {
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   fontSize: PropTypes.number
 };
 
-export default TextButton;
+export default SelectButton;

@@ -18,18 +18,23 @@
     },
     "assetBundlePatterns": ["**/*"],
     "android": {
+      "package": "com.andydklee.alcoholtimer",
+      "versionCode": 1,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-7463080230648874/9642391774"
-      }
+        "googleMobileAdsAppId": "ca-app-pub-7463080230648874~2903626018"
+      },
+      "permissions": ["VIBRATE"]
     },
     "ios": {
+      "bundleIdentifier": "com.andydklee.alcoholtimer",
       "supportsTablet": true,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-7463080230648874/9642391774"
+        "googleMobileAdsAppId": "ca-app-pub-7463080230648874~2903626018"
       },
       "infoPlist": {
         "UIBackgroundModes": ["audio"]
       }
-    }
+    },
+    "description": ""
   }
 }

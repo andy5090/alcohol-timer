@@ -19,7 +19,6 @@ const Launching = ({
   useEffect(() => {
     const checkFirstRun = async () => {
       try {
-        //await AsyncStorage.clear();
         await AsyncStorage.getItem("alreadyLaunched", (err, result) => {
           if (err) {
             console.log(err);

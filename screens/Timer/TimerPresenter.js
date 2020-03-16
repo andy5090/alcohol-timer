@@ -3,7 +3,7 @@ import { StatusBar, Modal, View } from "react-native";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
-import ImageButton from "../../components/ImageButton";
+import TimerButton from "../../components/TimerButton";
 import TextButton from "../../components/TextButton";
 import { TINT_COLOR, BG_COLOR, ALERT_COLOR } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
@@ -118,20 +118,8 @@ const TimerPresenter = ({
           <Timer> {formatTime(timerDuration - elapsedTime)}</Timer>
         </Middle>
         <Lower>
-          {!isPlaying && (
-            <ImageButton
-              size={120}
-              iconName="play-circle"
-              onPress={startTimer}
-            />
-          )}
-          {isPlaying && (
-            <ImageButton
-              size={120}
-              iconName="stop-circle"
-              onPress={restartTimer}
-            />
-          )}
+          {!isPlaying && <TimerButton iconState="start" onPress={startTimer} />}
+          {isPlaying && <TimerButton iconState="stop" onPress={restartTimer} />}
         </Lower>
       </TimerGradient>
     </Container>

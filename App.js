@@ -28,6 +28,7 @@ export default class App extends React.Component {
       "GothicA1-Thin": require("./assets/fonts/GothicA1-Thin.ttf"),
       "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
       "OpenSans-Regular": require("./assets/fonts/OpenSans-Regular.ttf"),
+      MapoDPP: require("./assets/fonts/MapoDPP.ttf"),
       "Montserrat-Thin": require("./assets/fonts/Montserrat-Thin.ttf"),
       "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
       "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf")
