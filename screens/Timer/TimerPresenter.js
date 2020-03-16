@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
-import { StatusBar, Modal, View } from "react-native";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
-import TimerButton from "../../components/TimerButton";
 import TextButton from "../../components/TextButton";
 import { TINT_COLOR, BG_COLOR, ALERT_COLOR } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { withNavigation } from "react-navigation";
 import Layout from "../../constants/Layout";
+import CircleButton from "../../components/CircleButton";
 
 const bigTextSize = Layout.defaultFontSize * 2.8;
 const textSize = Layout.defaultFontSize;
@@ -107,8 +106,8 @@ const TimerPresenter = ({
     <Container>
       <TimerGradient
         colors={[ALERT_COLOR, ALERT_COLOR, BG_COLOR]}
-        start={[0, elapsedTime / timerDuration - 0.3]}
-        end={[0, elapsedTime / timerDuration]}
+        start={[0, (elapsedTime / timerDuration) * 1.2 - 0.4]}
+        end={[0, (elapsedTime / timerDuration) * 1.2]}
       >
         <Upper>
           <TextButton name="+30분" onPress={plusHalfHour} />
@@ -118,8 +117,8 @@ const TimerPresenter = ({
           <Timer> {formatTime(timerDuration - elapsedTime)}</Timer>
         </Middle>
         <Lower>
-          {!isPlaying && <TimerButton iconState="start" onPress={startTimer} />}
-          {isPlaying && <TimerButton iconState="stop" onPress={restartTimer} />}
+          {!isPlaying && <CircleButton name="마시자" onPress={startTimer} />}
+          {isPlaying && <CircleButton name="그만" onPress={restartTimer} />}
         </Lower>
       </TimerGradient>
     </Container>

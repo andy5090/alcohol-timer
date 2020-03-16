@@ -4,7 +4,6 @@ import { Platform, Modal, TouchableWithoutFeedback, Alert } from "react-native";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import TextButton from "../../components/TextButton";
-import ImageButton from "../../components/ImageButton";
 import {
   BG_COLOR,
   TINT_COLOR,
@@ -13,6 +12,8 @@ import {
 } from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import SelectButton from "../../components/SelectButton";
+import CircleButton from "../../components/CircleButton";
+import AlertModal from "../../components/AlertModal";
 
 const midTextSize = Layout.defaultFontSize * 2;
 const bigTextSize = Layout.defaultFontSize * 5;
@@ -131,22 +132,24 @@ const CounterPresenter = ({
     <Loader />
   ) : (
     <Container alertState={alertState}>
-      {bac > 0 && alertState === 0
-        ? Alert.alert(
-            "안내",
-            "본 앱은 중간에 주종이 바뀌는 경우를 고려하지 않습니다. 혈중알콜농도 계산시 수정된 위드마크공식을 사용합니다. 위드마크공식에 의한 혈중알콜농도는 마시는 시간을 계산하지 않습니다. 실제 수치와는 차이가 있으니 주의하시기 바랍니다.",
-            [{ text: "확인", onPress: () => setAlertState(1) }],
-            { cancelable: false }
-          )
-        : null}
-      {bac > 0.03 && alertState === 1
-        ? Alert.alert(
-            "경고",
-            "혈중알콜농도가 음주운전 적발 기준을 넘었습니다. 대중교통을 이용하여 안전 귀가하시기 바랍니다.",
-            [{ text: "확인", onPress: () => setAlertState(2) }],
-            { cancelable: false }
-          )
-        : null}
+      {bac > 0 && alertState === 0 ? (
+        <AlertModal
+          title="안내"
+          context={
+            "본 앱은 혈중알콜농도 계산시 수정된 위드마크공식을 사용합니다. 또한 중간에 주종이 바뀌는 경우를 고려하지 않습니다. 위드마크공식에 의한 혈중알콜농도는 마시는 시간이 고려되지 않습니다. 계산된 수치는 실제와 차이가 있으니 주의하시기 바랍니다."
+          }
+          onPress={() => setAlertState(1)}
+        />
+      ) : null}
+      {bac > 0.03 && alertState === 1 ? (
+        <AlertModal
+          title="경고"
+          context={
+            "혈중알콜농도가 음주운전 적발 기준을 넘었습니다. 음주운전은 다른 사람의 생명을 위협하는 행위가 될뿐만 아니라 본인과 가족의 불행을 야기합니다. 대중교통을 이용하여 안전 귀가하시기 바랍니다."
+          }
+          onPress={() => setAlertState(2)}
+        />
+      ) : null}
       <Modal transparent={true} visible={modalVisible}>
         <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
           <TouchableContainer>
@@ -189,11 +192,7 @@ const CounterPresenter = ({
         <Counter>{drinkCount}</Counter>
       </Middle>
       <Lower>
-        <ImageButton
-          iconName="plus-circle"
-          size={120}
-          onPress={increaseCount}
-        />
+        <CircleButton name="한잔더" onPress={increaseCount}></CircleButton>
       </Lower>
     </Container>
   );

@@ -115,7 +115,7 @@ const AlarmPresenter = ({
         </CloseButtonContainer>
         <AdMobBanner
           bannerSize="mediumRectangle"
-          adUnitID="ca-app-pub-3940256099942544/6300978111"
+          adUnitID="ca-app-pub-7463080230648874/9642391774"
           onDidFailToReceiveAdWithError={error => console.log(error)}
         />
       </AdvertContainer>

@@ -101,8 +101,10 @@ const MsgButton = ({
         if (deleteMode) setDeleteMode(false);
       }}
       onLongPress={() => {
-        setDeleteMode(true);
-        noticeEdit("none");
+        if (id !== "new") {
+          setDeleteMode(true);
+          noticeEdit("none");
+        }
       }}
     >
       <ButtonContainer color={color}>
@@ -110,7 +112,7 @@ const MsgButton = ({
           <InputContainer>
             <EditText
               ref={editInput}
-              placeholder={text}
+              placeholder={id === "new" ? "새로운 매세지" : text}
               autoFocus={true}
               autoCorrect={false}
               onSubmitEditing={_onSave}

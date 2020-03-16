@@ -5,11 +5,14 @@ import styled from "styled-components";
 import { BG_COLOR } from "../../constants/Colors";
 import TextButton from "../../components/TextButton";
 import { withNavigation } from "react-navigation";
+import Layout from "../../constants/Layout";
+
+const paddingSize = Layout.defaultFontSize;
 
 const Container = styled.View`
-  padding-top: 30px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: ${paddingSize}px;
+  padding-left: ${paddingSize / 2}px;
+  padding-right: ${paddingSize / 2}px;
   background-color: ${BG_COLOR};
   flex: 1;
 `;

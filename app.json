@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Drink Limiter",
+    "name": "절주 타이머",
     "slug": "alcohol-timer",
     "privacy": "public",
     "sdkVersion": "36.0.0",

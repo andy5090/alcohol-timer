@@ -5,14 +5,16 @@ import { TouchableOpacity, Platform } from "react-native";
 import { BG_COLOR, TINT_COLOR } from "../constants/Colors";
 import Layout from "../constants/Layout";
 
-const radiusSize = Layout.defaultFontSize;
-const paddingSize = Layout.defaultFontSize / 1.3;
+const buttonSize = Layout.defaultFontSize * 5;
+const textSize = Layout.defaultFontSize * 1.3;
 
 const ButtonContainer = styled.View`
   background-color: ${props => props.color};
-  border-radius: ${radiusSize}px;
+  border-radius: ${buttonSize / 2};
+  width: ${buttonSize}px;
+  height: ${buttonSize}px;
+  justify-content: center;
   align-items: center;
-  margin: 2px;
   ${Platform.select({
     ios: {
       shadowColor: "black",
@@ -22,20 +24,19 @@ const ButtonContainer = styled.View`
     android: {
       elevation: 10
     }
-  })}
+  })};
 `;
 
 const ButtonText = styled.Text`
-  padding: ${paddingSize}px;
   color: ${props => props.fontColor};
   font-family: "MapoGoldenPier";
   font-size: ${props => props.fontSize};
 `;
 
-function TextButton({
+function CircleButton({
   name,
   onPress,
-  fontSize = Layout.defaultFontSize,
+  fontSize = textSize,
   color = TINT_COLOR,
   fontColor = BG_COLOR
 }) {
@@ -50,10 +51,10 @@ function TextButton({
   );
 }
 
-TextButton.propTypes = {
+CircleButton.propTypes = {
   name: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
-  fontSize: PropTypes.number
+  size: PropTypes.number
 };
 
-export default TextButton;
+export default CircleButton;

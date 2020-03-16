@@ -117,8 +117,10 @@ const DrinkButton = ({
         if (deleteMode) setDeleteMode(false);
       }}
       onLongPress={() => {
-        setDeleteMode(true);
-        noticeEdit("none");
+        if (id !== "new") {
+          setDeleteMode(true);
+          noticeEdit("none");
+        }
       }}
     >
       <ButtonContainer color={color}>
@@ -126,7 +128,7 @@ const DrinkButton = ({
           <InputContainer>
             <EditText
               ref={editInput1}
-              placeholder={name}
+              placeholder={id === "new" ? "술이름" : name}
               autoFocus={true}
               autoCorrect={false}
               onSubmitEditing={() => {

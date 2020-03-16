@@ -44,7 +44,7 @@ const DrinksPresenter = ({ loaded, drinks, currentEdit, noticeEdit }) => {
           <DrinkButton
             key={"add_new"}
             id={"new"}
-            name={"+ 알림 매세지 추가"}
+            name={"+ 주종 추가"}
             amount={"500"}
             degree={"5"}
             color={"#dfe6e9"}
