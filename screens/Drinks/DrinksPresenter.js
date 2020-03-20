@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { KeyboardAvoidingView } from "react-native";
+import React from "react";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";

@@ -23,7 +23,7 @@
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-7463080230648874~2903626018"
       },
-      "permissions": ["VIBRATE"]
+      "permissions": ["VIBRATE", "READ_CALENDAR", "WRITE_CALENDAR"]
     },
     "ios": {
       "bundleIdentifier": "com.andydklee.alcoholtimer",
@@ -32,7 +32,7 @@
         "googleMobileAdsAppId": "ca-app-pub-7463080230648874~2903626018"
       },
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": ["audio", "fetch"]
       }
     },
     "description": ""

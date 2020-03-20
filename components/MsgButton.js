@@ -1,17 +1,14 @@
 import React, { useState, useRef } from "react";
-import { TextInput } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { BG_COLOR, GREY_COLOR, ALERT_COLOR } from "../constants/Colors";
-import ImageButton from "./ImageButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { messageActionCreator } from "../redux/actions/messageActions";
 import uuidv1 from "uuid/v1";
 import { FontAwesome } from "@expo/vector-icons";
 import Layout from "../constants/Layout";
-import { setIsEnabledAsync } from "expo-av/build/Audio";
 
 const textSize = Layout.defaultFontSize / 1.2;
 const paddingGap = Layout.defaultFontSize / 1.5;

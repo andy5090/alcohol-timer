@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Vibration } from "react-native";
 import { Audio } from "expo-av";
 import PropTypes from "prop-types";
@@ -57,9 +57,9 @@ const soundObject = new Audio.Sound();
 const playRingtone = async () => {
   try {
     await soundObject.loadAsync(
-      require("../../assets/Twin-bell-alarm-clock-sound.mp3")
+      require("../../assets/Twin-bell-alarm-clock-sound.mp3"),
+      { volume: 1.0, rate: 1.0, isLooping: true }
     );
-    await soundObject.setIsLoopingAsync(true);
     await soundObject.playAsync();
   } catch (error) {
     console.log(error);
@@ -77,20 +77,25 @@ const stopRingtone = async () => {
 
 const AlarmPresenter = ({
   loading,
-  elapsedTime,
-  timerDuration,
   alarmOn,
   messages,
   turnOffAlarm,
   navigation
 }) => {
-  if (alarmOn) {
-    Vibration.vibrate(PATTERN, true);
-    playRingtone();
-  } else {
-    Vibration.cancel();
-    stopRingtone();
-  }
+  useEffect(() => {
+    Audio.setAudioModeAsync({
+      staysActiveInBackground: true,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS
+    });
+    if (alarmOn) {
+      Vibration.vibrate(PATTERN, true);
+      playRingtone();
+    } else {
+      Vibration.cancel();
+      stopRingtone();
+    }
+  });
 
   const randMsgIndex = Math.floor(Math.random() * messages.length);
 

@@ -1,10 +1,11 @@
-const DEFAULT_TIMER_DURATION = 10;
+const DEFAULT_TIMER_DURATION = 18000;
 
 const initialState = {
   isPlaying: false,
   elapsedTime: 0,
   timerDuration: DEFAULT_TIMER_DURATION,
-  alarmOn: false
+  alarmOn: false,
+  targetTime: null
 };
 
 const startTimer = state => {
@@ -41,14 +42,23 @@ const addSecond = state => {
 const plusHour = state => {
   return {
     ...state,
-    timerDuration: state.timerDuration + 3600
+    timerDuration: state.timerDuration + 36000
   };
 };
 const plusHalfHour = state => {
   return {
     ...state,
-    timerDuration: state.timerDuration + 1800
+    timerDuration: state.timerDuration + 18000
   };
+};
+const setDuration = (state, action) => {
+  return { ...state, elapsedTime: 0, timerDuration: action.duration / 100 };
+};
+const setElapsedTime = (state, action) => {
+  return { ...state, elapsedTime: action.elapsedTime };
+};
+const setTargetTime = (state, action) => {
+  return { ...state, targetTime: action.targetTime };
 };
 const turnOffAlarm = state => {
   return {
@@ -69,6 +79,12 @@ const timerReducer = (state = initialState, action) => {
       return plusHour(state);
     case "PLUS_HALFHOUR":
       return plusHalfHour(state);
+    case "SET_DURATION":
+      return setDuration(state, action);
+    case "SET_ELAPSEDTIME":
+      return setElapsedTime(state, action);
+    case "SET_TARGETTIME":
+      return setTargetTime(state, action);
     case "TURNOFF_ALARM":
       return turnOffAlarm(state);
     // Default

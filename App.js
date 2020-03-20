@@ -20,15 +20,11 @@ export default class App extends React.Component {
   loadAssets = async () => {
     await Font.loadAsync({
       ...Ionicons.font,
-      "NanumMyeongjo-Regular": require("./assets/fonts/NanumMyeongjo-Regular.ttf"),
       MapoGoldenPier: require("./assets/fonts/MapoGoldenPier.ttf"),
+      MapoDPP: require("./assets/fonts/MapoDPP.ttf"),
       "BlackHanSans-Regular": require("./assets/fonts/BlackHanSans-Regular.ttf"),
-      "GothicA1-Light": require("./assets/fonts/GothicA1-Light.ttf"),
-      "GothicA1-Regular": require("./assets/fonts/GothicA1-Regular.ttf"),
-      "GothicA1-Thin": require("./assets/fonts/GothicA1-Thin.ttf"),
       "OpenSans-Light": require("./assets/fonts/OpenSans-Light.ttf"),
       "OpenSans-Regular": require("./assets/fonts/OpenSans-Regular.ttf"),
-      MapoDPP: require("./assets/fonts/MapoDPP.ttf"),
       "Montserrat-Thin": require("./assets/fonts/Montserrat-Thin.ttf"),
       "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
       "Montserrat-Regular": require("./assets/fonts/Montserrat-Regular.ttf")

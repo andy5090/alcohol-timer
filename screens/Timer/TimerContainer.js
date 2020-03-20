@@ -1,18 +1,24 @@
 import React from "react";
+import { AppState } from "react-native";
 import TimerPresenter from "./TimerPresenter";
 
 export default class TimerContainer extends React.Component {
   state = {
     loading: false,
-    error: null
+    error: null,
+    appState: AppState.currentState
   };
+
+  componentDidMount() {
+    AppState.addEventListener("change", this._handleAppStateChange);
+  }
 
   componentDidUpdate(prevProps) {
     const currentProps = this.props;
     if (currentProps.isPlaying && !prevProps.isPlaying) {
       const timerInterval = setInterval(() => {
         currentProps.addSecond();
-      }, 1000);
+      }, 100);
       this.setState({
         timerInterval
       });
@@ -20,6 +26,30 @@ export default class TimerContainer extends React.Component {
       clearInterval(this.state.timerInterval);
     }
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = nextAppState => {
+    const { isPlaying, timerDuration, targetTime, setElapsedTime } = this.props;
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      if (isPlaying) {
+        const currentTime = Date.now();
+        if (currentTime < targetTime) {
+          const newElapsedTime =
+            (timerDuration * 100 - (targetTime - currentTime)) / 100;
+          setElapsedTime(newElapsedTime);
+        } else {
+          setElapsedTime(timerDuration);
+        }
+      }
+    }
+    this.setState({ appState: nextAppState });
+  };
 
   render() {
     const { loading } = this.state;
@@ -32,7 +62,9 @@ export default class TimerContainer extends React.Component {
       restartTimer,
       plusHour,
       plusHalfHour,
-      turnOffAlarm
+      setDuration,
+      setTargetTime,
+      messages
     } = this.props;
     return (
       <TimerPresenter
@@ -45,7 +77,9 @@ export default class TimerContainer extends React.Component {
         restartTimer={restartTimer}
         plusHour={plusHour}
         plusHalfHour={plusHalfHour}
-        turnOffAlarm={turnOffAlarm}
+        setDuration={setDuration}
+        setTargetTime={setTargetTime}
+        messages={messages}
       />
     );
   }

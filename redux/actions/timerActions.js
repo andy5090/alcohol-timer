@@ -18,8 +18,23 @@ const plusHalfHour = () => ({
   type: "PLUS_HALFHOUR"
 });
 
+const setDuration = duration => ({
+  type: "SET_DURATION",
+  duration
+});
+
 const turnOffAlarm = () => ({
   type: "TURNOFF_ALARM"
+});
+
+const setElapsedTime = elapsedTime => ({
+  type: "SET_ELAPSEDTIME",
+  elapsedTime
+});
+
+const setTargetTime = targetTime => ({
+  type: "SET_TARGETTIME",
+  targetTime
 });
 
 export const timerActionCreator = {
@@ -28,5 +43,8 @@ export const timerActionCreator = {
   addSecond,
   plusHour,
   plusHalfHour,
+  setDuration,
+  setElapsedTime,
+  setTargetTime,
   turnOffAlarm
 };

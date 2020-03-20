@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { BG_COLOR } from "../../constants/Colors";
 import MsgButton from "../../components/MsgButton";
 import Layout from "../../constants/Layout";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const iosPadding = Layout.defaultFontSize * 4.5;
 
