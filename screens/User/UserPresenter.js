@@ -11,11 +11,13 @@ import {
 } from "react-native-gesture-handler";
 import Layout from "../../constants/Layout";
 
+const smallTextSize = Layout.defaultFontSize / 2;
 const textSize = Layout.defaultFontSize;
 const bigTextSize = Layout.defaultFontSize * 1.5;
-const paddingGap = Layout.defaultFontSize * 2;
+const inputBoxSize = Layout.defaultFontSize * 2;
+const paddingGap = Layout.defaultFontSize * 1.5;
 const smallPaddingGap = Layout.defaultFontSize / 2;
-const radiusSize = Layout.defaultFontSize;
+const radiusSize = Layout.defaultFontSize / 2;
 
 const Container = styled.View`
   background-color: ${BG_COLOR};
@@ -45,6 +47,7 @@ const OutlineBox = styled.View`
 const WeightContatiner = styled.View`
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   margin: 5px;
   background-color: ${BG_COLOR};
   border-radius: ${radiusSize / 1.2};
@@ -72,6 +75,7 @@ const UserTextInput = styled.TextInput`
   color: ${TINT_COLOR};
   font-family: "MapoDPP";
   font-size: ${bigTextSize};
+  width: ${inputBoxSize};
 `;
 
 const Lower = styled.View`
@@ -86,6 +90,13 @@ const InfoText = styled.Text`
   color: ${TINT_COLOR};
   font-family: "MapoGoldenPier";
   font-size: ${textSize};
+`;
+
+const SmallText = styled.Text`
+  padding-left: ${paddingGap};
+  color: ${TINT_COLOR};
+  font-family: "MapoGoldenPier";
+  font-size: ${smallTextSize};
 `;
 
 const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
@@ -127,6 +138,7 @@ const UserPresenter = ({ loading, changeSex, editWeight, sex, weight }) => {
         />
       </Upper>
       <Middle>
+        <SmallText> 본인의 체중을 입력해주세요</SmallText>
         <TouchableWithoutFeedback onPressOut={_onInput}>
           <OutlineBox>
             <WeightContatiner>

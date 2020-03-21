@@ -10,7 +10,8 @@ import Layout from "../../constants/Layout";
 import CircleButton from "../../components/CircleButton";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import TimePicker from "react-native-modal-datetime-picker";
-import * as Calendar from "expo-calendar";
+// import * as Calendar from "expo-calendar";
+import * as Permissions from "expo-permissions";
 import { Notifications } from "expo";
 import { Platform } from "react-native";
 
@@ -100,19 +101,19 @@ const TimerPresenter = ({
   messages,
   navigation
 }) => {
-  const [myCalendar, setMyCalendar] = useState(null);
-  const [alarmEventId, setAlarmEventId] = useState(null);
+  // const [myCalendar, setMyCalendar] = useState(null);
+  // const [alarmEventId, setAlarmEventId] = useState(null);
 
   useEffect(() => {
-    if (myCalendar === null) {
-      (async () => {
-        const { status } = await Calendar.requestCalendarPermissionsAsync();
-        if (status === "granted") {
-          const calendars = await Calendar.getCalendarsAsync();
-          setMyCalendar(calendars[0]);
-        }
-      })();
-    }
+    // if (myCalendar === null) {
+    //   (async () => {
+    //     const { status } = await Calendar.requestCalendarPermissionsAsync();
+    //     if (status === "granted") {
+    //       const calendars = await Calendar.getCalendarsAsync();
+    //       setMyCalendar(calendars[0]);
+    //     }
+    //   })();
+    // }
 
     if (alarmOn) {
       setNewTargetTime(null);
@@ -134,23 +135,23 @@ const TimerPresenter = ({
     }
   };
 
-  const setCalendarAlarm = async targetTime => {
-    const eventId = await Calendar.createEventAsync(myCalendar.id, {
-      title: `절주 타이머 알람 : ${messages[randMsgIndex].text}`,
-      startDate: new Date(targetTime + 60000),
-      endDate: new Date(targetTime + 120000),
-      timeZone: "GMT+9",
-      alarms: [{ relativeOffset: -1, method: Calendar.AlarmMethod.ALERT }]
-    }).catch(error => {
-      console.log("failure", error);
-    });
-    setAlarmEventId(eventId);
-  };
-  const deleteCalendarAlarm = async () => {
-    await Calendar.deleteEventAsync(alarmEventId).catch(error => {
-      console.log("failure", error);
-    });
-  };
+  // const setCalendarAlarm = async targetTime => {
+  //   const eventId = await Calendar.createEventAsync(myCalendar.id, {
+  //     title: `절주 타이머 알람 : ${messages[randMsgIndex].text}`,
+  //     startDate: new Date(targetTime + 60000),
+  //     endDate: new Date(targetTime + 120000),
+  //     timeZone: "GMT+9",
+  //     alarms: [{ relativeOffset: -1, method: Calendar.AlarmMethod.ALERT }]
+  //   }).catch(error => {
+  //     console.log("failure", error);
+  //   });
+  //   setAlarmEventId(eventId);
+  // };
+  // const deleteCalendarAlarm = async () => {
+  //   await Calendar.deleteEventAsync(alarmEventId).catch(error => {
+  //     console.log("failure", error);
+  //   });
+  // };
 
   const _onCancel = () => {
     setPickerShow(false);
@@ -161,34 +162,41 @@ const TimerPresenter = ({
 
   const PATTERN = [500, 250, 250, 250, 500, 250, 250, 250, 500, 250, 250, 250];
 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS === "android") {
+        await Notifications.createChannelAndroidAsync("timer-alarm", {
+          name: "Alarm Notification",
+          priority: "max",
+          sound: true,
+          vibrate: PATTERN
+        });
+      } else {
+        const { status } = await Permissions.getAsync(
+          Permissions.NOTIFICATIONS
+        );
+        if (status !== "granted") {
+          await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        }
+      }
+    })();
+  }, []);
+
   const setNotification = async targetTime => {
-    let notificationID;
-    if (Platform.OS === "android") {
-      await Notifications.createChannelAndroidAsync("timer-alarm", {
-        name: "Alarm Notification",
-        priority: "max",
-        sound: true,
-        vibrate: PATTERN
-      });
-      notificationID = await Notifications.scheduleLocalNotificationAsync(
-        {
-          title: "절주 타이머 알람",
-          body: messages[randMsgIndex].text,
-          android: {
-            channelId: "timer-alarm"
-          }
+    const notificationID = await Notifications.scheduleLocalNotificationAsync(
+      {
+        title: "절주 타이머 알람",
+        body: messages[randMsgIndex].text,
+        android: {
+          channelId: "timer-alarm"
         },
-        { time: targetTime }
-      );
-    } else {
-      notificationID = await Notifications.scheduleLocalNotificationAsync(
-        {
-          title: "절주 타이머 알람",
-          body: messages[randMsgIndex].text
-        },
-        { time: targetTime }
-      );
-    }
+        ios: {
+          sound: true,
+          _displayInForeground: true
+        }
+      },
+      { time: targetTime }
+    );
     setNotiId(notificationID);
   };
 
@@ -201,6 +209,7 @@ const TimerPresenter = ({
   ) : (
     <Container>
       <TimePicker
+        date={new Date(Date.now())}
         display="spinner"
         isVisible={pickerShow}
         mode="time"
@@ -242,9 +251,9 @@ const TimerPresenter = ({
                   newTargetTime = selectedTargetTime;
                 }
                 setTargetTime(newTargetTime);
-                if (Platform.OS === "ios") {
-                  setCalendarAlarm(newTargetTime);
-                }
+                // if (Platform.OS === "ios") {
+                //   setCalendarAlarm(newTargetTime);
+                // }
                 setNotification(newTargetTime);
                 startTimer();
               }}
@@ -255,9 +264,9 @@ const TimerPresenter = ({
               name="그만"
               onPress={() => {
                 setNewTargetTime(null);
-                if (Platform.OS === "ios") {
-                  deleteCalendarAlarm();
-                }
+                // if (Platform.OS === "ios") {
+                //   deleteCalendarAlarm();
+                // }
                 cancelNotification();
                 restartTimer();
               }}

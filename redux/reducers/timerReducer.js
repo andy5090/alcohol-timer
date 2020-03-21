@@ -34,6 +34,7 @@ const addSecond = state => {
     return {
       ...state,
       isPlaying: false,
+      timerDuration: DEFAULT_TIMER_DURATION,
       elapsedTime: 0,
       alarmOn: true
     };
