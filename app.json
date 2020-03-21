@@ -25,7 +25,7 @@
       "package": "com.andydklee.alcoholtimer",
       "versionCode": 1,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-7463080230648874~2903626018"
+        "googleMobileAdsAppId": "" //your admob AppID
       },
       "permissions": ["VIBRATE"]
     },
@@ -33,7 +33,7 @@
       "bundleIdentifier": "com.andydklee.alcoholtimer",
       "supportsTablet": true,
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-7463080230648874~2903626018"
+        "googleMobileAdsAppId": "" //your admob AppID
       },
       "infoPlist": {
         "UIBackgroundModes": ["audio"]
